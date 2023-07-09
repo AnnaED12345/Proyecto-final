@@ -1,9 +1,9 @@
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 prisma.usuario.create ({
     data: {
-        nombre: "Tania",
+        nombre: "Lucas",
     }
 }). then(usuario => {
     console.log(usuario);
