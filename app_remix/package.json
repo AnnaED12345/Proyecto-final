@@ -1,0 +1,22 @@
+{
+  "name": "app.remix",
+  "version": "1.0.0",
+  "description": "Proyecto final: Aplicacion de tareas",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": " "
+  },
+  "author": "Anna Emil Dimitrova",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.16.2",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "prisma": "^4.16.2"
+  }
+}

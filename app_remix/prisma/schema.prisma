@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model Tarea {
+  id String @id @default(auto()) @map("_id") @db.ObjectId //nos genera un id automático
+  tarea String  
+  usuario Usuario @relation(fields: [usuarioID], references: [id]) //a la tarea se le asocia un usuario y usamos el campo UsuarioID para un id particular para esa realción tarea-usuario, y lo realcionamos con el id del usuario
+  usuarioID String @db.ObjectId //el atribudo ObjetoId (explicado arriba)
+  //usuarioID es un foreignKey: este campo no existe en la base de datos, es el campo que hace la relación
+}
+
+
+//Creamos el modelo para Usuarios y lo relacionamos con las tareas.
+//1:N --> Un usuario podrá tener muchas tareas, pero una tarea solo podrá estar relacionada con un único usuario 
+model Usuario {
+  id String @id @default(auto()) @map("_id") @db.ObjectId //nos genera un id automático
+  nombre String 
+  tareas Tarea[] //el usuario tendrá un campo de tarea que recibirá muchas tareas[]
+}
