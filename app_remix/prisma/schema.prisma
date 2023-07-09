@@ -10,20 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//Establecemos los modelos Prisma y las relaciones entre estos. 
 
-model Tarea {
-  id String @id @default(auto()) @map("_id") @db.ObjectId //nos genera un id automático
-  tarea String  
-  usuario Usuario @relation(fields: [usuarioID], references: [id]) //a la tarea se le asocia un usuario y usamos el campo UsuarioID para un id particular para esa realción tarea-usuario, y lo realcionamos con el id del usuario
-  usuarioID String @db.ObjectId //el atribudo ObjetoId (explicado arriba)
-  //usuarioID es un foreignKey: este campo no existe en la base de datos, es el campo que hace la relación
+
+//Definimos el modelo de Usuario con un id, un nombre, un email para identificar al usuario, su respectiva contraseña y lo vamos a relacionar con el modelo Lista: 
+model Usuario {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  email String @unique
+  password String
+  listas Lista[]
 }
 
+//Definimos el modelo de Lista con un id, un titulo y crearemos una relación con el Usuario y la Tarea: 
+model Lista {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  titulo String
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String @db.ObjectId
+  tareas Tarea[]
+}
 
-//Creamos el modelo para Usuarios y lo relacionamos con las tareas.
-//1:N --> Un usuario podrá tener muchas tareas, pero una tarea solo podrá estar relacionada con un único usuario 
-model Usuario {
-  id String @id @default(auto()) @map("_id") @db.ObjectId //nos genera un id automático
-  nombre String 
-  tareas Tarea[] //el usuario tendrá un campo de tarea que recibirá muchas tareas[]
+//Definimos el modelo de Tarea con un id, una descripcion y crearemos una relación con Lista: 
+model Tarea {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  descripcion String
+  lista Lista @relation(fields: [listaId], references: [id])
+  listaId String @db.ObjectId
 }

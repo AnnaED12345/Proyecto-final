@@ -6,8 +6,9 @@ import chokidar from "chokidar";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import rutasApp from "./server/rutas-app";
+/* import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient(); */
 
 
 installGlobals();
@@ -40,14 +41,7 @@ app.use(morgan("tiny"));
 
 //-------------- CÓDIGO DEL SERVIDOR --------------
 
-app.get("/usuarios", (req, res) => { //con el metodo get leemos los recursos
-  prisma.usuario.findMany().then(usuarios => { //le decimos a prisma que desde mongoDB lea todas las tareas
-  console.log(usuarios);
-  res.send(usuarios); //respondemos enviando el array de tareas
-})
-});
-
-
+rutasApp(app);
 
 //-------------- CÓDIGO DEL SERVIDOR --------------
 
