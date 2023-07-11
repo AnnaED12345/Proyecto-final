@@ -1,6 +1,6 @@
 import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import GetListasUsuarios from "../../componentes/listas";
+import GetListasUsuarios from "../../componentes/get-listas";
 
 
 

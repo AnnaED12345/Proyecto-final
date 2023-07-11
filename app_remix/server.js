@@ -212,18 +212,29 @@ function authorized(req, res, next) {
   });
 
   //DELETE: ruta para borrar listas:
-  app.delete("/users/:user_id/list/:list_id", authorized, (req, res) => {
-      const borrarLista = req.params.list_id;
-      prisma.lista.delete({
-          where: {
-          id: borrarLista
-      }
-      }).then(listaEliminada => {
-          res.send(listaEliminada);
-      }).catch(error =>{
-          res.send(error)
-      })  
-  }); 
+  app.delete("/users/:user_id/list/:list_id", authorized, async (req, res) => {
+    const listId = req.params.list_id;
+
+    try {
+      // Eliminar las tareas asociadas a la lista
+      await prisma.tarea.deleteMany({
+        where: {
+          listaId: listId,
+        },
+      });
+  
+      // Eliminar la lista
+      const listaEliminada = await prisma.lista.delete({
+        where: {
+          id: listId,
+        },
+      });
+  
+      res.send(listaEliminada);
+    } catch (error) {
+      res.send(error);
+    }
+  });
 
 
   //GET: ruta para recibir las tareas de la lista: 
