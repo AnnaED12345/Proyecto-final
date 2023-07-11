@@ -107,12 +107,14 @@ app.post("/login", passport.authenticate("local"), (req, res) => {
 
 //LOGOUT
 app.get("/logout", function (req, res) {
+    console.log(req.session);
+    //console.log(res.);
     req.session.destroy((err) => {//si el cierre de sesion da error
       if (err) { //send 400.
         res.status(400).send();
       } else { //si el cierre de sesión es correcto
         /* res.redirect("/app_tareas/login");  *///se redirige al usuario a la ruta deseada
-        res.send("No login")
+        res.send("No login");
       }
     })
     });
@@ -126,11 +128,11 @@ app.get("/logout", function (req, res) {
 
 //middleware para la autenticación el cuál posteriormnete añadiremos en las rutas deseadas: 
 function authorized(req, res, next) {
-    if (!req.user || req.user.id !== req.params.user_id) { //si no coincide el usuario, y su id no es igual a variable en ruta
-        console.log("#Authorized", req.user, req.user.id, req.params);
+     if (!req.user || req.user.id !== req.params.user_id) { //si no coincide el usuario, y su id no es igual a variable en ruta
         res.status(403).send("Unauthorized");//respondemos con un 403 - no autorizado
     return;
     }
+    else{console.log("Unauthorizednull");}
     next();
     }
 
@@ -144,7 +146,7 @@ function authorized(req, res, next) {
 
     //GET: ruta para recibir los usuarios con sus listas:
     app.get("/users/:user_id/list", authorized, (req, res) => {
-      const usuarioId = req.params.user_id
+      const usuarioId = req.params.user_id;
  
   prisma.usuario.findUnique({
       where: {
@@ -217,7 +219,7 @@ function authorized(req, res, next) {
 
 
   //GET: ruta para recibir las tareas de la lista: 
-  app.get("/list/:list_id/tasks", authorized, (req, res) => {
+  app.get("/:user_id/list/:list_id/tasks", authorized, (req, res) => {
       const listaId = req.params.list_id
 
   prisma.lista.findUnique({
@@ -235,29 +237,32 @@ function authorized(req, res, next) {
 }) 
 
   //POST: ruta para crear tareas:
-  app.post("/list/:list_id/tasks", authorized, (req, res) => {
-      const nuevaTarea = req.body.descripcion
+  app.post("/:user_id/list/:list_id/tasks", authorized, (req, res) => {
+      const nuevaTarea1 = req.body.descripcion
       const listaId = req.params.list_id
 
       prisma.tarea.create ({
           data: {
-              descripcion: nuevaTarea,
+              descripcion: nuevaTarea1,
               
               lista: { 
                   connect: { //conectamos la creación de la tarea a la lista
-                      listaId: listaId
+                      id: listaId
                   }
             },
           }
               }).then(nuevaTarea => {
-              res.status(201).send(nuevaTarea);
+                console.log(nuevaTarea.descripcion);
+                console.log("createTask");
+                  res.status(201).send(nuevaTarea);
           }).catch(error => {
-              res.status(400).send(error)
+              res.status(400).send(error);
+              console.log("error");
           } )
   });
 
   //Put: ruta para editar tareas:
-  app.put("/list/:list_id/tasks/:task_id", authorized, (req, res) => {
+  app.put("/:user_id/list/:list_id/tasks/:task_id", authorized, (req, res) => {
       const tareaEditada = req.params.task_id;
       const descripcion = req.body.descripcion
 
@@ -266,7 +271,7 @@ function authorized(req, res, next) {
               id: tareaEditada 
               },
               data: {
-                   titulo: descripcion
+                   descripcion: descripcion
               }
           }).then(tareaActualziada => {
          res.send(tareaActualziada)
@@ -276,7 +281,7 @@ function authorized(req, res, next) {
   });
 
   //DELETE: ruta para borrar tareas:
-  app.delete("/list/:list_id/tasks/:task_id", authorized, (req, res) => {
+  app.delete("/:user_id/list/:list_id/tasks/:task_id", authorized, (req, res) => {
       const tareaParaBorrar = req.params.task_id;
       prisma.tarea.delete({
           where: {

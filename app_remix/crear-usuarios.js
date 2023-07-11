@@ -11,7 +11,7 @@ async function crearUsuarios (nombre, email, password) {
     const salt = await bcrypt.genSalt(10); //generamos la salt
     /* console.log("#SALT", salt); */
     const hashedPassword = await bcrypt.hash(password, salt); //generamos hash
-    console.log("#PASSWORD", password, "#HASH", hashedPassword);
+    console.log("#PASSWORD", nombre, password, "#HASH", hashedPassword);
 
     prisma.usuario.createMany ({
         data:{ 
@@ -46,8 +46,22 @@ crearUsuarios("Eva", "eva@gmail.com", "333");
     });  */
 
 
-    /*  prisma.lista.deleteMany({
+  /*    prisma.lista.deleteMany({
     }).then(lista => {
         console.log(lista);
     });   */
 
+/*  prisma.tarea.create ({
+    data: {
+        descripcion: "tarea 01",
+        
+        lista: { //indicamos el campo de usuario
+            connect: { //y conectamos la creación de la tarea
+                id: "64ac63c759537e70f8a0f290"
+            }
+      },
+    }
+        }).then(tarea => {
+        console.log(tarea);
+    }) 
+     */

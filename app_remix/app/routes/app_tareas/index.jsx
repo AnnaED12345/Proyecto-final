@@ -22,8 +22,7 @@ export default function SeleccionaUsuario () {
         })
         if (response.ok) { //si la respuesta es ok
             const user = await response.json();
-            console.log(user);
-            /* window.location.href = `/app_tareas/${user.id}`;  *///enviamos al usuario a su app de tareas
+            window.location.href = `/index`; //enviamos al usuario a su app de tareas
         } else setError("Usuario o contraseña incorrectos."); //si es incorrecta gestionamos el error
     }
 
