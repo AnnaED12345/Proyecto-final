@@ -43,8 +43,8 @@ export default function AppTareas () {
                 </nav>
                 <h2>Hola, {usuario.name}</h2>
                 <h1>Añade una tarea</h1>
+                {/* añadir componente formulario*/}
                 <GetListasUsuarios></GetListasUsuarios>
-                {/* añadir componente lista tareas */}
            
             </div> //si no hay usuario, que se muestre la siguiente pestaña: 
             : <div>
