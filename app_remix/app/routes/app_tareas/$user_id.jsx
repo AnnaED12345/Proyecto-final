@@ -35,13 +35,25 @@ export default function AppTares () {
     }, []); //no agregamos dependencias ya que queremos que se haga el fetch únicamente una vez
 
 
+    async function submitLogout (event) { //cuando se haga un submit // el usuario haga login:
+        event.preventDefault();
+
+        const response = await fetch(`/logout`)
+        if (response.ok) {
+            window.location.href = "/app_tareas/";
+        } else {
+            console.error("Error en el logout");
+        }
+    }
+
+
     return (
         <div>
             { usuario ? //¿Hay usuario?
                 <div>
                 <nav>
                     <h1>Mis listas</h1>
-                    <h3>Cerrar Sesión</h3>
+                    <button onClick={submitLogout}>Cerrar Sesión</button>
                 </nav>
                 <h2>Hola, {usuario.name}</h2>
                 <h1>Añade una tarea</h1>
