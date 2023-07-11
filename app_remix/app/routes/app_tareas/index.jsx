@@ -20,11 +20,20 @@ export default function SeleccionaUsuario () {
               "Content-Type": "application/json",
             }
         })
-        if (response.ok) { //si la respuesta es ok
-            const user = await response.json();
-            window.location.href = `/index`; //enviamos al usuario a su app de tareas
-        } else setError("Usuario o contraseña incorrectos."); //si es incorrecta gestionamos el error
-    }
+    
+    if (response.ok) { 
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) { //si contiene content-type:
+          const user = await response.json();
+          window.location.href = `/app_tareas/${user.id}`; //se redirige al usuario a su app de tareas mediante el id
+        } else {
+          setError("La respuesta no contiene datos JSON"); 
+        }
+      } else {
+        setError("Usuario o contraseña incorrectos.");
+      }
+
+}
 
     return (
             <div>

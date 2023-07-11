@@ -13,6 +13,7 @@ import bodyParser from "body-parser";
 import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local'; 
+import bcrypt from 'bcrypt';
 
 
 
@@ -81,17 +82,23 @@ passport.deserializeUser(function(id, done) {
       });
 });
 
-//Gestión de la estrategia para manejar la autenticación de passport 
-passport.use(
-    new LocalStrategy(function (email, password, done) {
-    prisma.usuario.findUnique({ where: { email } }) //buscamos en la bbdd el email del usuario
+//Gestión de la estrategia para manejar la autenticación: middleeware passport-local
+passport.use( 
+  new LocalStrategy(function (email, password, done) {
+  prisma.usuario
+    .findUnique(
+      { where: { email } }) //buscamos en la bbdd al usuario utilizando el nombre de usuario proporcionado:
+  
     .then((user) => {
-    if (!user || user.password !== password) return done(true); //si no coincide el email o la contraseña no es válida: error
-    return done(null, user);
-    })
-    .catch((err) => done(err));
-    })
-    );
+      const valid = bcrypt.compare(password, user.password).then((valid) => {
+      if (!user || !valid) return done(true); //si no coincide el usuario o la contraseña no es válida: 
+      return done(null, user);
+    });//con bcrypt.compare, comparamos las contraseñas para validar si coinciden --> devuelve una promesa
+  })
+  .catch((err) => {
+    done(err)});
+  })
+);
 
 
 //-------------- GESTIÓN DE SESIONES --------------
@@ -101,7 +108,8 @@ passport.use(
 
 //LOGIN
 app.post("/login", passport.authenticate("local"), (req, res) => {
-    res.status(200).send();
+    const user = req.user;
+    res.status(200).send(user);
     });
 
 
