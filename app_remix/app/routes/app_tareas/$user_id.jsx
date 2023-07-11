@@ -2,8 +2,10 @@ import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import GetListasUsuarios from "../../componentes/listas";
 
+
+
 //Pestaña app tareas de cada usuario: 
-export default function AppTares () {
+export default function AppTareas () {
     const {user_id} = useParams(); 
     const [usuario, setUsuario] = useState();
 
