@@ -1,11 +1,12 @@
-export default function DialogoBorrarLista ({ onCancelarBorrarLista, onCancelarEditar }) {
-    
+export default function DialogoBorrarLista ({onCancelarBorrarLista, onBorrarListaHandle }) {
+
     return (
-      <dialog id="borrar_dialogo_lista">
-        <p>¿Estás seguro de que deseas borrar esta tarea?</p>
+      <dialog id="dialogo-borrar-lista">
+        <p>¿Estás seguro de que deseas borrar esta lista?</p>
+        <p>Atención: Se borrarán todas las tareas vinculadas a esta lista</p>
 
         <button 
-        onClick={onConfirmarBorrar}>
+        onClick={onBorrarListaHandle}>
           Borrar
         </button>
 

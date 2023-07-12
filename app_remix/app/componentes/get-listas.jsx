@@ -3,20 +3,22 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import GetTareas from "./get-tareas";
+import BotonOpciones from "./boton-opciones";
+import CrearTareaFormulario from "./crear-tarea";
+import DialogoCrearLista from "./crear-lista";
+
 
 //Componente que renderiza las listas del usuario
 
 export default function GetListasUsuarios ({}) { 
-    const opciones = ["Editar", "Borrar"] //menu de opciones
     const [open, setOpen] = useState(false); //Estado para abrir el menu de opciones
     
 
     const {user_id} = useParams();
     const [listas, setListas] = useState([]);
     const [listaTareas, setListaTareas] = useState([]);
-    const [idLista, setIdLista] = useState([]);
-
-
+    //const [idLista, setidLista] = useState();
+    let idLista;
 
     //sacamos la función del useEffect ya que la necesitaremos en otros componentes para los demás métodos --> la pasaremos con las props
     async function cargarListas () { 
@@ -32,64 +34,48 @@ export default function GetListasUsuarios ({}) {
     
     async function cargarTareas (listId) { 
         const respuesta = await fetch (`/${user_id}/list/${listId}/tasks`); 
-        const datos = await respuesta.json(); //la almacenamos en js
-        setIdLista(listId);
+        const datos = await respuesta.json(); //la almacenamos en js        
         setListaTareas(datos.tareas);
     };
 
-    const onAbrirListaHandle = ((listId) => {        
+    const onAbrirListaHandle = ((listId) => { 
+        idLista=listId;
         cargarTareas(listId);
     })
 
-    
-// ---------------- DIALOGO BORRAR ----------------
-const dialogoBorrarLista = document.getElementById("borrar_dialogo_lista");
 
-    
-    const options = {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-    
-    async function borrarLista (listId) { 
-        const respuesta = await fetch (`/users/${user_id}/list/${listId}`, options); 
-        const datos = await respuesta.json(); //la almacenamos en js
-        console.log(datos);
-        cargarListas()
-    };
-    
-    const onBorrarListaHandle = ((listId) => { 
-        console.log(listId);
-       
-        borrarLista(listId);
-    })
+    // ---------------- DIALOGO CREAR LISTA ----------------
+    const dialogoCrearLista = document.getElementById("dialogo-crear-lista");
 
+    const mostrarDialogoCrear = () => {
+        dialogoCrearLista.showModal();
+    }
 
-
-// ---------------- DIALOGO BORRAR ----------------
 
 
     return (
-        <div> { listas.length > 0 ? //¿Hay usuario?
+        <div> 
+            { listas.length > 0 ? //¿Hay usuario?
             listas.map((lista) => (
                 <div key={lista.id}> 
-                    <FontAwesomeIcon icon={faEllipsisVertical} onClick={() => setOpen(open? false : true)} />
+                    <button onClick={() => setOpen(open? false : true)} >
+                        <FontAwesomeIcon icon={faEllipsisVertical}/>
+                    </button>
                     {open && (
-                        <ul>{opciones.map((opcion) => (
-                            <button key={opcion} onClick={() => {if(opcion === "Borrar"){borrarLista(lista.id)}else{}}}>{opcion}</button>
-                        ))}</ul>
-                    )}
+                        <BotonOpciones user_id={user_id} listaId={lista.id} cargarListas={cargarListas}></BotonOpciones>
+                        )}
                     <button key={lista.id} onClick={()=>onAbrirListaHandle(lista.id)}>{lista.titulo}</button>
+                    <CrearTareaFormulario idLista={lista.id} cargarTareas={cargarTareas}></CrearTareaFormulario>
                 </div>
             ))
             : <h3>No tienes ninguna lista</h3>}
 
             <GetTareas cargarTareas={cargarTareas} idLista={idLista} listaTareas={listaTareas} />
             
-            <button>Crear Lista</button>
-            
+            <button onClick={mostrarDialogoCrear}>Crear Lista</button>
+            <DialogoCrearLista user_id={user_id} dialogoCrearLista={dialogoCrearLista}></DialogoCrearLista>
+
+
         </div>
     )
 }

@@ -171,7 +171,7 @@ function authorized(req, res, next) {
 })
 
   //POST: ruta para crear listas:
-  app.post("/users/:user_id/list", authorized, (req, res) => {
+  app.post("/users/:user_id/list", authorized, /* bodyParser.urlencoded(), */ (req, res) => { //urlencode para parsear los datos de la información post del formulario
       const nuevaLista = req.body.titulo
       const usuarioID = req.params.user_id
 
@@ -256,7 +256,7 @@ function authorized(req, res, next) {
 }) 
 
   //POST: ruta para crear tareas:
-  app.post("/:user_id/list/:list_id/tasks", authorized, (req, res) => {
+  app.post("/:user_id/list/:list_id/tasks", authorized, /* bodyParser.urlencoded(), */ (req, res) => {
       const nuevaTarea1 = req.body.descripcion
       const listaId = req.params.list_id
 
