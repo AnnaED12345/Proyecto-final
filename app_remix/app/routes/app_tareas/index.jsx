@@ -42,7 +42,7 @@ export default function SeleccionaUsuario () {
 
     return (
             <div>
-                <h1>Bienvenid@</h1>
+                <h1 className="text-3xl font-bold underline">Bienvenid@</h1>
                 <h2>Inserta tus datos:</h2>
                 <form onSubmit={submitLogin}>
                 <div>

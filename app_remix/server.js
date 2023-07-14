@@ -47,7 +47,7 @@ app.use(morgan("tiny"));
 
 //Gestionamos el middleware body-parser para poder recoger los datos del body:
 app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({ extended: true }));
+/* app.use(bodyParser.urlencoded({ extended: true })); */
 
 
 //-------------- GESTIÓN DE SESIONES --------------
@@ -256,7 +256,7 @@ function authorized(req, res, next) {
 }) 
 
   //POST: ruta para crear tareas:
-  app.post("/:user_id/list/:list_id/tasks", bodyParser.urlencoded(), authorized, (req, res) => {
+  app.post("/:user_id/list/:list_id/tasks", /* bodyParser.urlencoded(), */ authorized, (req, res) => {
       const nuevaTarea1 = req.body.descripcion
       const listaId = req.params.list_id
 
