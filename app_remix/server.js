@@ -14,6 +14,7 @@ import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local'; 
 import bcrypt from 'bcrypt';
+/* import rutasApp from "./db/rutas-app"; */
 
 
 
@@ -46,6 +47,7 @@ app.use(morgan("tiny"));
 
 //Gestionamos el middleware body-parser para poder recoger los datos del body:
 app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //-------------- GESTIÓN DE SESIONES --------------
@@ -103,6 +105,7 @@ passport.use(
 
 //-------------- GESTIÓN DE SESIONES --------------
 
+/* rutasApp(app); */
 
 //-------------- RUTAS LOGIN Y LOGOUT --------------
 
@@ -129,31 +132,28 @@ app.get("/logout", function (req, res) {
 
 //-------------- RUTAS LOGIN Y LOGOUT --------------
 
-
-
-
 //-------------- AUTENTICACIÓN EN RUTAS --------------
 
 //middleware para la autenticación el cuál posteriormnete añadiremos en las rutas deseadas: 
 function authorized(req, res, next) {
-     if (!req.user || req.user.id !== req.params.user_id) { //si no coincide el usuario, y su id no es igual a variable en ruta
-        res.status(403).send("Unauthorized");//respondemos con un 403 - no autorizado
-    return;
-    }
-    else{console.log("Unauthorizednull");}
-    next();
-    }
+  if (!req.user || req.user.id !== req.params.user_id) { //si no coincide el usuario, y su id no es igual a variable en ruta
+     res.status(403).send("Unauthorized");//respondemos con un 403 - no autorizado
+ return;
+ }
+ else{console.log("Unauthorizednull");}
+ next();
+ }
 
 //-------------- AUTENTICACIÓN EN RUTAS --------------
 
 
 
+//-------------- CÓDIGO PARA LA GESTIÓN DE RUTAS --------------
 
-//-------------- CÓDIGO DEL SERVIDOR --------------
+//Definimos una función que recoja el código dónde se gestionan las rutas de la aplicación
 
-
-    //GET: ruta para recibir los usuarios con sus listas:
-    app.get("/users/:user_id/list", authorized, (req, res) => {
+  //GET: ruta para recibir los usuarios con sus listas:
+  app.get("/users/:user_id/list", authorized, (req, res) => {
       const usuarioId = req.params.user_id;
  
   prisma.usuario.findUnique({
@@ -171,7 +171,7 @@ function authorized(req, res, next) {
 })
 
   //POST: ruta para crear listas:
-  app.post("/users/:user_id/list", authorized, /* bodyParser.urlencoded(), */ (req, res) => { //urlencode para parsear los datos de la información post del formulario
+  app.post("/users/:user_id/list", authorized, (req, res) => { //urlencode para parsear los datos de la información post del formulario
       const nuevaLista = req.body.titulo
       const usuarioID = req.params.user_id
 
@@ -256,7 +256,7 @@ function authorized(req, res, next) {
 }) 
 
   //POST: ruta para crear tareas:
-  app.post("/:user_id/list/:list_id/tasks", authorized, /* bodyParser.urlencoded(), */ (req, res) => {
+  app.post("/:user_id/list/:list_id/tasks", bodyParser.urlencoded(), authorized, (req, res) => {
       const nuevaTarea1 = req.body.descripcion
       const listaId = req.params.list_id
 
@@ -313,8 +313,6 @@ function authorized(req, res, next) {
       })  
   }); 
 
-
-//-------------- CÓDIGO DEL SERVIDOR --------------
 
 
 app.all(

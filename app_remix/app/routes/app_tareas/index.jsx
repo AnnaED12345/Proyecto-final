@@ -1,13 +1,18 @@
 import { useState } from "react";
 
-//Pestaña Login: selección de usuarios:
+/* Pestaña Login: selección de usuarios:
+- Función en la que se hace una petición POST a la ruta login 
+- Return: 
+    - Pestaña Login con un formulario para insertar usuario y contraseña. 
+ */
+
+
 export default function SeleccionaUsuario () {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    console.log(email, password);
-
+    
     async function submitLogin (event) { //cuando se haga un submit --> login:
         event.preventDefault();
 
@@ -41,7 +46,7 @@ export default function SeleccionaUsuario () {
                 <h2>Inserta tus datos:</h2>
                 <form onSubmit={submitLogin}>
                 <div>
-                    <label htmlFor="username">Usuario:</label>
+                    <label htmlFor="username">Email:</label>
                 <input 
                     className="texto" 
                     type="text" 

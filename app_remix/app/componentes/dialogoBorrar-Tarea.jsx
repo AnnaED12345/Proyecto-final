@@ -1,7 +1,8 @@
-export default function DialogoBorrar({ dialogoBorrar, user_id, list_id, tareaId, cargarTareas}) {
-  
+export default function DialogoBorrarTarea({ dialogoBorrarTarea, tareaId, usuarioId, idLista, cargarTareas}) {
+
+
   const onCancelarBorrar = () => {
-      dialogoBorrar.close();
+    dialogoBorrarTarea.close();
       tareaId = {};
   }
 
@@ -10,11 +11,11 @@ export default function DialogoBorrar({ dialogoBorrar, user_id, list_id, tareaId
           method: 'DELETE'
       }
 
-      const borrar = fetch (`/${user_id}/list/${list_id}/tasks/${tareaId}`, options)
+      const borrar = fetch (`/${usuarioId}/list/${idLista}/tasks/${tareaId}`, options)
       .then((res) => {  
         if (res.ok) { 
-          cargarTareas(list_id);
-          dialogoBorrar.close();
+          cargarTareas(idLista);
+          dialogoBorrarTarea.close();
 
         } else {
             console.log ("No existe esta tarea");

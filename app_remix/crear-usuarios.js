@@ -25,7 +25,7 @@ async function crearUsuarios (nombre, email, password) {
         }) 
 }
 
-crearUsuarios("Mario", "mario@gmail.com", "111");
+crearUsuarios("Mario", "eduardo@gmail.com", "111");
 crearUsuarios("Juan", "juan@gmail.com", "222");
 crearUsuarios("Eva", "eva@gmail.com", "333");
 
@@ -40,15 +40,20 @@ crearUsuarios("Eva", "eva@gmail.com", "333");
 
 
   //Eliminar
-   /* prisma.usuario.deleteMany({
+  /*  prisma.usuario.deleteMany({
     }).then(user => {
         console.log(user);
     });  */
 
 
-  /*    prisma.lista.deleteMany({
+    /*  prisma.lista.deleteMany({
     }).then(lista => {
         console.log(lista);
+    });   */
+
+    /*   prisma.tarea.deleteMany({
+    }).then(tarea => {
+        console.log(tarea);
     });   */
 
 /*  prisma.tarea.create ({

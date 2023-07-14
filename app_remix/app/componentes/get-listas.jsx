@@ -2,46 +2,49 @@ import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import GetTareas from "./get-tareas";
-import BotonOpciones from "./boton-opciones";
-import CrearTareaFormulario from "./crear-tarea";
+import BotonOpciones from "./btn-opciones";
 import DialogoCrearLista from "./crear-lista";
+import VentanaTareas from "./ventana-tareas";
 
 
-//Componente que renderiza las listas del usuario
+/* Componente que renderiza las listas del usuario 
+- Función para cargar las tareas
+- Función para abrir la lista
+- Render:
+    - Listas del usuario:
+        Dentro se renderiza el componente get-Tareas:
+            - Formulario para crear tarea
+            - Boton de opciones
+                - Boton Editar
+                - Boton Borrar
+            - Tareas
+*/
 
-export default function GetListasUsuarios ({}) { 
-    const [open, setOpen] = useState(false); //Estado para abrir el menu de opciones
-    
+export default function GetListas ({usuario, listas, openVentanaListas, setOpenVentanaListas}) { 
+
+    console.log("openVentanaListas", openVentanaListas);
+
+    const [listaSeleccionada, setListaSeleccionada] = useState(false); //Estado para abrir el menu de opciones
+    const [openVentanaTareas, setOpenVentanaTareas] = useState(false); //Estado para abrir la ventana de tareas
 
     const {user_id} = useParams();
-    const [listas, setListas] = useState([]);
-    const [listaTareas, setListaTareas] = useState([]);
-    //const [idLista, setidLista] = useState();
-    let idLista;
+   /*  const [listas, setListas] = useState([]); */
+    const [tareas, setTareas] = useState([]); //variable que almacena las tareas
 
-    //sacamos la función del useEffect ya que la necesitaremos en otros componentes para los demás métodos --> la pasaremos con las props
-    async function cargarListas () { 
-        const respuesta = await fetch (`/users/${user_id}/list`); //la respuesta que recibimos de /tareas
-        const datos = await respuesta.json(); //la almacenamos en js
-        setListas(datos.listas); //los datos que queremos recibir del usuario son sus tareas y accedemos a ellas con .tareas
-    }
-
-     //usamos use effect para hacer un fetch para optimizar la aplicación y que no se haga una petición cada vez que se renderiza
-     useEffect (() => {
-        cargarListas();
-    }, []); //no agregamos dependencias ya que queremos que se haga el fetch únicamente una vez
+    const [idLista, setIdLista] = useState(); 
     
     async function cargarTareas (listId) { 
+        console.log("listId getlistass", listId);
         const respuesta = await fetch (`/${user_id}/list/${listId}/tasks`); 
-        const datos = await respuesta.json(); //la almacenamos en js        
-        setListaTareas(datos.tareas);
+        const datos = await respuesta.json(); //la almacenamos en js  
+        setTareas(datos.tareas);
     };
 
-    const onAbrirListaHandle = ((listId) => { 
-        idLista=listId;
+    const onAbrirListaHandle = ((listId) => {
+        setOpenVentanaTareas(true);
+        setIdLista(listId);
         cargarTareas(listId);
-    })
+    });
 
 
     // ---------------- DIALOGO CREAR LISTA ----------------
@@ -54,28 +57,52 @@ export default function GetListasUsuarios ({}) {
 
 
     return (
-        <div> 
-            { listas.length > 0 ? //¿Hay usuario?
-            listas.map((lista) => (
-                <div key={lista.id}> 
-                    <button onClick={() => setOpen(open? false : true)} >
-                        <FontAwesomeIcon icon={faEllipsisVertical}/>
+        <div>
+           {openVentanaListas === true ? (
+            <div>
+                {listas.length > 0 ? // ¿Hay lista?
+                listas.map((lista) => ( // Se renderiza un listado de las listas del usuario
+                    <ul key={lista.id}>
+                    <button key={lista.id} onClick={() => onAbrirListaHandle(lista.id)}>{lista.titulo}</button>
+                    <button onClick={() => setListaSeleccionada(lista.id)}>
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
                     </button>
-                    {open && (
-                        <BotonOpciones user_id={user_id} listaId={lista.id} cargarListas={cargarListas}></BotonOpciones>
-                        )}
-                    <button key={lista.id} onClick={()=>onAbrirListaHandle(lista.id)}>{lista.titulo}</button>
-                    <CrearTareaFormulario idLista={lista.id} cargarTareas={cargarTareas}></CrearTareaFormulario>
+                    {listaSeleccionada == lista.id && (
+                    <BotonOpciones 
+                    usuario={usuario} 
+                    listaId={lista.id} 
+                    listaSeleccionada={listaSeleccionada}
+                    setOpenVentanaTareas={setOpenVentanaTareas}></BotonOpciones>)}
+                    </ul>
+                ))
+                : <div>
+                    <p>No hay ninguna lista</p>
                 </div>
-            ))
-            : <h3>No tienes ninguna lista</h3>}
-
-            <GetTareas cargarTareas={cargarTareas} idLista={idLista} listaTareas={listaTareas} />
+                }
             
-            <button onClick={mostrarDialogoCrear}>Crear Lista</button>
-            <DialogoCrearLista user_id={user_id} dialogoCrearLista={dialogoCrearLista}></DialogoCrearLista>
-
-
+                {openVentanaTareas === true ? (
+                <VentanaTareas
+                    tareas={tareas}
+                    usuario={usuario}
+                    idLista={idLista}
+                    cargarTareas={cargarTareas}
+                    openVentanaTareas={openVentanaTareas}
+                    setOpenVentanaTareas={setOpenVentanaTareas}
+                >
+                </VentanaTareas>
+                ) : (
+                <div>
+                    <h1>Antes de empezar... <br /> seleccione una lista.</h1>
+                    <h2>Si no tienes ninguna lista, <br /> añade una lista en 'Crear lista'</h2>
+                </div>
+                )}
+            
+                <button onClick={mostrarDialogoCrear}>Crear Lista</button>
+                <DialogoCrearLista user_id={user_id} dialogoCrearLista={dialogoCrearLista}></DialogoCrearLista>
+            </div>
+            ) : (
+            null
+            )}
         </div>
-    )
-}
+      );
+    }      
