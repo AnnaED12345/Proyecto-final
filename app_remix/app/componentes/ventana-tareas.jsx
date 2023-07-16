@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, openVentanaTareas, setopenVentanaTareas}) {
 
-    const dialogoBorrarTarea = document.getElementById("borrar_dialogo");
+    const [modalBorrarTarea, setModalBorrarTarea] = useState(false);
     const dialogoEditarTarea = document.getElementById("editar-dialogo-tarea");
 
     const [tareaId, setTareaId] = useState() 
@@ -25,7 +25,7 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
    // ---------------- MOSTRAR DIALOGO BORRAR ----------------
    const mostrarDialogoBorrarTarea = (idTarea) => {
        setTareaId(idTarea);
-       dialogoBorrarTarea.showModal();
+       setModalBorrarTarea(true);
    }
    // ---------------- MOSTRAR DIALOGO BORRAR ----------------
 
@@ -54,15 +54,15 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
                         </div>
                         )}
                     
-                <DialogoEditarTarea 
-                dialogoEditarTarea={dialogoEditarTarea} 
+                <DialogoEditarTarea  
                 tareaId={tareaId} 
                 usuarioId={usuario.id} 
                 idLista={idLista} 
                 cargarTareas={cargarTareas} 
                 /> 
                 <DialogoBorrarTarea 
-                dialogoBorrarTarea={dialogoBorrarTarea} 
+                modalBorrarTarea={modalBorrarTarea}
+                setModalBorrarTarea={setModalBorrarTarea}
                 tareaId={tareaId} 
                 usuarioId={usuario.id} 
                 idLista={idLista} 

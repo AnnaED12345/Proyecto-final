@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faPlus} from '@fortawesome/free-solid-svg-icons';
 
-export default function DialogoEditarLista({usuarioId, idList, cargarListas}) {
+export default function DialogoEditarLista({usuarioId, idList, cargarListas, modalEditarLista, setModalEditarLista}) {
 
     const [error, setError] = useState(""); //para actualizar el valor del error
 
 
-    const onCancelarEditarTarea = () => {
-        document.getElementById("dialogo-editar-lista").close(); 
+    const onCancelarEditarLista = () => {
+        setModalEditarLista(false);
     }
 
     const [listaActualizada, setListaActualizada] = useState(" ")
@@ -29,7 +31,7 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas}) {
              .then((res) => {  
                 if (res.ok) { 
                     cargarListas(idList);
-                    document.getElementById("dialogo-editar-lista").close(); 
+                    setModalEditarLista(false);
           
               } else {
                   console.log(error);
@@ -39,33 +41,64 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas}) {
     } 
     
     return (
-        <dialog id="dialogo-editar-lista">
-            <form onSubmit={onSubmitLista}>
-                <input
-                className="editar_texto"
-                type="text"
-                placeholder="Actualiza tu lista..."
-                name="tarea_actualizada"
-                id="tarea_actualizadaID"
-                onChange={(event) => setListaActualizada(event.target.value)}
-                />
-                <div>
-                <input id="btnOk" type="submit" value="Aceptar" />
+        <overlay>
+            {modalEditarLista && (
+            <div className='fixed z-50 inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center'>
+                <mdoal className='bg-white mx-5 sm:mx-auto rounded-3xl shadow-lg z-50 overflow-y-auto py-10 px-10'>
 
-                <input
-                id="btnCancelar"
-                type="submit"
-                value="Cancelar"
-                onClick={onCancelarEditarTarea}
-                />
-                </div>
+                <form
+                    className='flex flex-col sm:px-16 md:px-22 py-2'
+                    onSubmit={onSubmitLista}>
 
-                {error && ( 
-                <p id="errores" style={{ color: "red" }}>
-                    {error}
-                </p>
+                    <label
+                    className='text-MidnightBlue text-xl md:text-2xl text-left pb-6'
+                    id="cajaIngresar"
+                    htmlFor="lista"
+                    >
+                    ¿Qué título quieres ponerle a lista?
+                    </label>
+
+                    <div class="relative pb-5">
+                        <input
+                            className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-MidnightBlue text-md md:text-lg sm:text-base block w-full'
+                                type="text"
+                                placeholder="Actualiza tu lista..."
+                                name="lista_actualizada"
+                                id="lista_actualizadaID"
+                                onChange={(event) => setListaActualizada(event.target.value)}
+                            style={{ textIndent: '10px', paddingLeft: '10px' }}
+                        />
+                        <FontAwesomeIcon
+                            icon={faPlus}
+                            size="lg"
+                            className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
+                        />
+                    </div>
+
+                    {error && (
+                    <p id="errores" className="text-red-600 text-md">
+                        {error}
+                    </p>
+                    )}
+
+                    <div className='grid grid-cols-2 gap-3 mt-6'>
+                        <button
+                            className='bg-Gainsboro hover:bg-MintGreen text-gray-800 font-thin md:text-lg py-2 rounded-md'
+                            type="submit">
+                            Aceptar
+                        </button>
+                        <button
+                            className='bg-Gainsboro hover:bg-BurntSienna text-gray-800 font-thin md:text-lg py-2 rounded-md'
+                            onClick={onCancelarEditarLista}>
+                            Cancelar
+                        </button>
+                    </div>
+
+                </form>
+
+                </mdoal>
+            </div>
             )}
-            </form>
-        </dialog>
-  );
+        </overlay>
+);
 }

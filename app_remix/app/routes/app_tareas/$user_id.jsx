@@ -2,6 +2,8 @@ import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import CrearTareaFormulario from "../../componentes/crear-tarea";
 import GetListas from "../../componentes/get-listas";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faSpinner, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import CrearListaFormulario from "../../componentes/dialogoCrear-Lista";
 
 
@@ -59,55 +61,43 @@ export default function AppTareas () {
     });
 
 
-  
-    return (
-        <div className="h-screen items-center justify-center overflow-y-hidden">
-            { usuario ? //¿Hay usuario? (
-                <div className="px-10 md:px-20">
-                <nav className="bg-white flex justify-between my-6">
-                    <button className="self-center ml-4 lg:ml-8 text-3xl font-bold"
-                        onClick={onAbrirVentanaListas}>Tus listas</button>
-                    <button className="self-center mr-4 lg:mr-8 text-md text-SlateGray hover:text-MidnightBlue ml-auto"
-                        onClick={submitLogout}>Cerrar Sesión</button>
-                </nav>
-            
-                <div className="h-screen grid grid-cols-1 lg:grid-cols-3 gap-20 pb-32">
-                    <section id="box-listas"  className="flex flex-col h-full bg-Gainsboro col-span-1 lg:col-span-1 rounded-3xl px-3 py-10 text-center">
+    async function cargarTareas (listId) { 
+        console.log("listId getlistass", listId);
+        const respuesta = await fetch (`/${user_id}/list/${listId}/tasks`); 
+        const datos = await respuesta.json(); //la almacenamos en js  
+        setTareas(datos.tareas);
+    };
+
+    
+
+    return(
+            <div className="h-screen items-center justify-center lg:overflow-y-hidden">
+              {usuario ? (
+                <div className="mx-10">
+                    <div>
+                    <nav className="bg-white flex justify-between my-6">
+                        <button className="self-center ml-3 text-3xl font-bold" onClick={onAbrirVentanaListas}>Tus listas</button>
+                        <button className="self-center lg:mr-8 text-sm text-SlateGray hover:text-MidnightBlue ml-auto" onClick={submitLogout}>
+                        Cerrar Sesión
+                        <FontAwesomeIcon className="ml-3" icon={faArrowRightFromBracket} />
+                        </button>
+                    </nav>
+                    </div>
+        
                         <GetListas
                             usuario={usuario} 
                             listas={listas} 
                             openVentanaListas={openVentanaListas} 
                             setOpenVentanaListas={setOpenVentanaListas}
                         ></GetListas>
-                        <button>
-                            <CrearListaFormulario ></CrearListaFormulario>
-                            </button>
-                    </section>
-                    {openVentanaListas === true ? (
-                        <section id="box-listas" className="col-span-1 lg:col-span-2">
-                            <h1>Hola, {usuario.name}</h1>
-                                {openVentanaTareas === true ? (
-                                    <VentanaTarea
-                                        tareas={tareas}
-                                        usuario={usuario}
-                                        idLista={idLista}
-                                        cargarTareas={cargarTareas}
-                                        openVentanaTareas={openVentanaTareas}
-                                        setOpenVentanaTareas={setOpenVentanaTareas}
-                                    >
-                                    </VentanaTarea>
-                                    ) : (
-                                    <div>
-                                        <h1>Antes de empezar... <br /> seleccione una lista.</h1>
-                                        <h2>Si no tienes ninguna lista, <br /> añade una lista en 'Crear lista'</h2>
-                                    </div>
-                                    )}
-                        </section>) : <h1>Porfavor, seleccione una lista</h1> }
                 </div>
+              ) : (
+                <div className="text-SlateGray flex flex-col justify-center items-center h-screen">
+                  <FontAwesomeIcon className="text-3xl animate-spin h-10 w-10 mb-10" icon={faSpinner} />
+                  <h1 className="text-4xl font-bold mb-3">Cargando...</h1>
+                  <h2 className="text-2xl">Porfavor, espere unos segundos.</h2>
+                </div>
+              )}
             </div>
-            : <div>
-                <h1>Cargando...</h1>
-                </div>}
-        </div>
-    )
+          );
 }
