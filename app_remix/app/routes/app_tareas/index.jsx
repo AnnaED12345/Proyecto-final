@@ -41,38 +41,43 @@ export default function SeleccionaUsuario () {
 }
 
     return (
-            <div>
-                <h1 className="text-3xl font-bold underline">Bienvenid@</h1>
-                <h2>Inserta tus datos:</h2>
-                <form onSubmit={submitLogin}>
-                <div>
-                    <label htmlFor="username">Email:</label>
-                <input 
-                    className="texto" 
-                    type="text" 
-                    name="username"
-                    required
-                    onChange={(event) => setEmail(event.target.value)} /> 
-                </div>
+        <div className="bg-Gainsboro h-screen flex items-center justify-center ">
+            <div className="bg-white py-10 sm:py-16 px-16 sm:px-28 md:px-32 mx-auto rounded-3xl">
+                    <h1 className="text-center text-4xl sm:text-5xl font-bold text-MidnightBlue pb-2">Bienvenid@</h1>
+                    <h2 className="text-center text-xl sm:text-2xl font-light text-MidnightBlue pb-8" >Inserta tus datos:</h2>
+                    <form className="space-y-4 sm:space-y-6 " action="#" 
+                        onSubmit={submitLogin}>
+                    <div>
+                        <label className="block mb-4 text-lg sm:text-xl font-light text-MidnightBlue"
+                            htmlFor="username">Email:</label>
+                    <input className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light text-md sm:text-base block w-full p-2 px-8 mb-4" 
+                        type="text" 
+                        name="username"
+                        placeholder="email@gmail.com"
+                        required=""
+                        onChange={(event) => setEmail(event.target.value)} /> 
+                    </div>
 
-                <div>
-                <label htmlFor="password">Contraseña:</label>
-                <input 
-                    className="texto" 
-                    type="password" 
-                    name="password"
-                    required
-                    onChange={(event) => setPassword(event.target.value)} /> 
+                    <div>
+                    <label className="block mb-4 text-lg sm:text-xl font-light text-MidnightBlue"
+                        htmlFor="password">Contraseña:</label>
+                    <input className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light text-md sm:text-base block w-full p-2 px-8 mb-4" 
+                        type="password" 
+                        name="password"
+                        placeholder="contraseña"
+                        required=""
+                        onChange={(event) => setPassword(event.target.value)} /> 
 
-                    <p id="errores" style={{ color: "red" }}>
-                        {error}
-                    </p>
-                </div>
+                        <p className="text-red-600 text-md mt-4">
+                            {error}
+                        </p>
+                    </div>
 
-                <div>
-                    <button>Acceder</button>
+                    <div>
+                        <button className="w-full text-MidnightBlue bg-MintGreen hover:saturate-50 font-bold rounded-3xl text-sm md:text-lg px-5 py-2.5 my-7 text-center">Acceder</button>
+                    </div>
+                    </form>
                 </div>
-                </form>
-            </div>
+        </div>
     )
 }

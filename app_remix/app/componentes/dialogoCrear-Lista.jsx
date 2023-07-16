@@ -44,26 +44,37 @@ export default function CrearListaFormulario ({dialogoCrearLista, user_id}) {
        
 
     return (
-        <dialog id='dialogo-crear-lista'>
-             <form id="formulario" onSubmit={submitLista}>
-                <label id="cajaIngresar" htmlFor="lista">Añade tu lista:</label>
+        <dialog className='bg-white p-8 rounded-lg shadow-md'
+            id='dialogo-crear-lista' >
+             <form className='flex flex-col px-12 sm:px-16 md:px-22 py-2'
+             id="formulario" 
+             onSubmit={submitLista}>
+                <label className='text-xl md:text-2xl text-left pb-4'
+                id="cajaIngresar" 
+                htmlFor="lista">Añade tu lista:</label>
                 
-                <input 
-                className="texto" 
+                <input className='border shadow-md rounded-md text-MidnightBlue font-light text-md md:text-lg sm:text-base block w-full p-2 px-8 mb-4'
                 type="text" 
                 placeholder="Agregar lista..." 
                 name="lista" 
                 id="listID"
                 value={listaCreada}
-                onChange={(event) => setListaCreada(event.target.value)} /> 
-            
-                <input 
+                onChange={(event) => setListaCreada(event.target.value)} />
+                
+                {/* <input className=''
                 id="btnAnadir" 
                 type="submit" 
-                value=" + " />
-                <button onClick={onCancelarListaHandle}>Cancelar</button>
-            </form>
+                value="" /> */}
 
+                <div className='grid grid-cols-2 gap-3 mt-3'>
+                    <button className='bg-Gainsboro hover:bg-MintGreen font-thin md:text-lg py-2 rounded-3xl' 
+                    onSubmit={submitLista} >Aceptar</button>
+                    <button className='bg-Gainsboro hover:bg-BurntSienna font-thin md:text-lg py-2 rounded-3xl'
+                    onClick={onCancelarListaHandle}>Cancelar</button>
+                </div>
+            </form>
+            
+        
             {error && ( //explicado el operador && abajo
                 <p id="errores" style={{ color: "red" }}>
                     {error}

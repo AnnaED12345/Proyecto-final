@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import BotonOpciones from "./btn-opciones";
-import DialogoCrearLista from "./crear-lista";
+import DialogoCrearLista from "./dialogoCrear-Lista";
 import VentanaTareas from "./ventana-tareas";
 
 
@@ -76,7 +76,7 @@ export default function GetListas ({usuario, listas, openVentanaListas, setOpenV
                     </ul>
                 ))
                 : <div>
-                    <p>No hay ninguna lista</p>
+                    <p>No tienes ninguna lista</p>
                 </div>
                 }
             
@@ -91,17 +91,18 @@ export default function GetListas ({usuario, listas, openVentanaListas, setOpenV
                 >
                 </VentanaTareas>
                 ) : (
-                <div>
+                <div className="pb-72">
                     <h1>Antes de empezar... <br /> seleccione una lista.</h1>
                     <h2>Si no tienes ninguna lista, <br /> añade una lista en 'Crear lista'</h2>
                 </div>
                 )}
-            
-                <button onClick={mostrarDialogoCrear}>Crear Lista</button>
+                <button className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 font-3xl font-light px-6"
+                onClick={mostrarDialogoCrear}>Crear Lista</button>
                 <DialogoCrearLista user_id={user_id} dialogoCrearLista={dialogoCrearLista}></DialogoCrearLista>
             </div>
             ) : (
-            null
+                <button className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 font-3xl font-light px-6"
+                onClick={mostrarDialogoCrear}>Crear Lista</button>
             )}
         </div>
       );

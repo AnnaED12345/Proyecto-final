@@ -6,11 +6,13 @@ export default {
     extend: {
       colors: {
             'Gainsboro': '#EEF0F4', //Blanco roto
-            'Mint Green': '#A0F280', //Verde Menta
-            'Slate Gray': '#7E8591', //Gris Pizarra
-            'Midnight Blue' : '#111C31' //Azul Medianoche
-            }
-          },
+            'MintGreen': '#A0F280', //Verde Menta
+            'SlateGray': '#7E8591', //Gris Pizarra
+            'MidnightBlue' : '#111C31', //Azul Medianoche
+            'BurntSienna':'#f87171',
+            },
+        },
+      
   },
   plugins: [],
 } satisfies Config
