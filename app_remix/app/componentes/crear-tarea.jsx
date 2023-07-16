@@ -35,30 +35,36 @@ export default function CrearTareaFormulario ({idLista, cargarTareas} ) {
 
 
     return (
-        <div id=''>
-             <form onSubmit={submitTarea} /* method='post' action={`/${user_id}/list/${idLista}/tasks`} */>
-                <label id="cajaIngresar" htmlFor="tarea">Añade una tarea:</label>
+        <div className='grid grid-cols-3'>
+             <form className='flex flex-col col-span-2'
+             onSubmit={submitTarea} /* method='post' action={`/${user_id}/list/${idLista}/tasks`} */>
                 
-                <input 
-                className="texto" 
-                type="text" 
-                placeholder="Agregar tarea..." 
-                name="tarea" 
-                id="tareaID"
-                value={tareaCreada}
-                onChange={(event) => setTareaCreada(event.target.value)} /> 
-                
-                <input 
-                id="btnAnadir" 
-                type="submit" 
-                value=" + " />
-            </form>
+                <label className='text-2xl mb-3 '
+                htmlFor="tarea">Añade una nueva tarea:</label>
 
-            {error && ( 
-                <p id="errores" style={{ color: "red" }}>
-                    {error}
-                </p>
-            )}
+                    <div className="relative pb-5">
+                        <input
+                            className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full'
+                            type="text"
+                            placeholder="Agregar tarea..." 
+                            name="tarea"
+                            id="tareaID"
+                            value={tareaCreada}
+                            onChange={(event) => setTareaCreada(event.target.value)}
+                        />
+                        <FontAwesomeIcon className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
+                            icon={faPlus} 
+                            size="lg"
+                            onClick={submitTarea}
+                        />
+                    </div>
+                            {error && ( 
+                        <p id="errores" style={{ color: "red" }}>
+                            {error}
+                        </p>
+                    )}
+            </form>     
+
         </div>
     ) 
 }

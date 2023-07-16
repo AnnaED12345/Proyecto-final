@@ -55,7 +55,7 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas, mod
                     id="cajaIngresar"
                     htmlFor="lista"
                     >
-                    ¿Qué título quieres ponerle a lista?
+                    ¿Qué título quieres ponerle a tu lista?
                     </label>
 
                     <div class="relative pb-5">

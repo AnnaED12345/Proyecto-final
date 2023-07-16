@@ -37,9 +37,9 @@ export default function BotonOpciones ({usuario, listaId, btnOpciones, settnOpci
 
 
     return (
-        <div>
+        <div className="flex justify-center">
             {btnOpciones && ( 
-            <ul>{opciones.map((opcion) => (
+            <ul className="flex">{opciones.map((opcion) => (
                 <button className="text-MidnightBlue px-4 pt-2"
                 id="opciones" key={opcion} 
                     onClick={() => {

@@ -71,11 +71,11 @@ export default function AppTareas () {
     
 
     return(
-            <div className="h-screen items-center justify-center lg:overflow-y-hidden">
+            <div className="items-center justify-center my-3 md:overflow-y-hidden">
               {usuario ? (
                 <div className="mx-10">
                     <div>
-                    <nav className="bg-white flex justify-between my-6">
+                    <nav className="bg-white flex justify-between">
                         <button className="self-center ml-3 text-3xl font-bold" onClick={onAbrirVentanaListas}>Tus listas</button>
                         <button className="self-center lg:mr-8 text-sm text-SlateGray hover:text-MidnightBlue ml-auto" onClick={submitLogout}>
                         Cerrar Sesión
@@ -83,7 +83,6 @@ export default function AppTareas () {
                         </button>
                     </nav>
                     </div>
-        
                         <GetListas
                             usuario={usuario} 
                             listas={listas} 

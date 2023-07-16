@@ -58,7 +58,7 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                     id="cajaIngresar"
                     htmlFor="lista"
                     >
-                    ¿Qué título quieres ponerle a lista?
+                    ¿Qué título quieres ponerle a tu lista?
                     </label>
 
                     <div class="relative pb-5">
@@ -70,7 +70,6 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                             id="listID"
                             value={listaCreada}
                             onChange={(event) => setListaCreada(event.target.value)}
-                            style={{ textIndent: '10px', paddingLeft: '10px' }}
                         />
                         <FontAwesomeIcon
                             icon={faPlus}

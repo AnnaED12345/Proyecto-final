@@ -65,20 +65,23 @@ export default function GetListas ({usuario, listas, openVentanaListas, setOpenV
     return (
         <div>
           {openVentanaListas === true ? (
-            <div className="h-screen grid grid-cols-1 lg:grid-cols-3 gap-20 pb-32">
-              <section id="box-listas" className="flex flex-col h-full bg-Gainsboro col-span-1 lg:col-span-1 rounded-3xl px-3 py-10 text-center">
-                {listas.length > 0 ? (
-                  listas.map((lista) => (
-                    <ul className="p-2 text-white mx-auto" key={lista.id}>
-                        <button className="bg-SlateGray hover:bg-MidnightBlue py-2 px-6 rounded-3xl w-60 flex justify-between" 
-                            key={lista.id} onClick={() => onAbrirListaHandle(lista.id)}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mt-5 mb-20">
+              <section id="box-listas" className="flex flex-col bg-Gainsboro col-span-1 md:col-span-1 rounded-3xl px-3 py-10s">
+                <div className="h-80 overflow-y-auto m-5 mb-10 rounded-xl overflow-x-hidden">
+                    {listas.length > 0 ? (
+                    listas.map((lista) => (
+                        <ul className="p-2 text-white" key={lista.id}>
+                        <button className="bg-SlateGray hover:bg-MidnightBlue py-2 px-6 rounded-3xl flex justify-between w-full"
+                            key={lista.id}
+                            onClick={() => onAbrirListaHandle(lista.id)}
+                        >
                             {lista.titulo}
                             <button className="ml-6" onClick={onBtnOpcionesHandle}>
                             <FontAwesomeIcon className="text-xl" icon={faEllipsisVertical} />
                             </button>
                         </button>
                         {listaSeleccionada === lista.id && (
-                            <BotonOpciones
+                            <BotonOpciones 
                             usuario={usuario}
                             listaId={lista.id}
                             listaSeleccionada={listaSeleccionada}
@@ -87,14 +90,15 @@ export default function GetListas ({usuario, listas, openVentanaListas, setOpenV
                             setBtnOpciones={setBtnOpciones}
                             />
                         )}
-                    </ul>
+                        </ul>
                   ))
                 ) : (
                   <div>
-                    <p>No tienes ninguna lista</p>
+                    <p className="my-10 text-xl font-light">No tienes ninguna lista</p>
                   </div>
                 )}
-                <div className="mt-10 lg:mt-auto mx-auto ">
+                </div>
+                <div className="mt-5 mb-10 lg:mt-auto mx-auto">
                   <button className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 font-3xl font-light px-6" onClick={mostrarDialogoCrear}>
                     Crear Lista
                   </button>
@@ -102,10 +106,10 @@ export default function GetListas ({usuario, listas, openVentanaListas, setOpenV
                 </div>
               </section>
       
-              <section id="box-tareas" className="col-span-1 lg:col-span-2">
+              <section id="box-tareas" className="col-span-1 md:col-span-2">
                 <h1 className="text-3xl mb-5">Hola, {usuario.name}</h1>
                 {openVentanaTareas === true ? (
-                  <VentanaTareas
+                  <VentanaTareas 
                     tareas={tareas}
                     usuario={usuario}
                     idLista={idLista}
@@ -124,16 +128,15 @@ export default function GetListas ({usuario, listas, openVentanaListas, setOpenV
             </div>
           ) : (
             <div>
-            <p className="my-10 font-3xl font-light">
-              Para empezar debes crear al menos una lista. 
-            </p>
-            <button className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 font-3xl font-light px-6" onClick={mostrarDialogoCrear}>
-              Crear Lista
-            </button>
-            <CrearListaFormulario user_id={user_id} dialogoCrearLista={dialogoCrearLista} setDialogoCrearLista={setDialogoCrearLista} />
-          </div>
+              <p className="my-10 text-xl font-light">
+                Para empezar debes crear al menos una lista.
+              </p>
+              <button className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 font-3xl font-light px-6" onClick={mostrarDialogoCrear}>
+                Crear Lista
+              </button>
+              <CrearListaFormulario user_id={user_id} dialogoCrearLista={dialogoCrearLista} setDialogoCrearLista={setDialogoCrearLista} />
+            </div>
           )}
         </div>
-      );
-      
+      );      
     }      

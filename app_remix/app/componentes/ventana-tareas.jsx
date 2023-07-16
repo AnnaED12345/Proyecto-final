@@ -9,7 +9,7 @@ import { useState } from 'react';
 export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, openVentanaTareas, setopenVentanaTareas}) {
 
     const [modalBorrarTarea, setModalBorrarTarea] = useState(false);
-    const dialogoEditarTarea = document.getElementById("editar-dialogo-tarea");
+    const [modalEditarTarea, setEditarBorrarTarea] = useState(false);
 
     const [tareaId, setTareaId] = useState() 
 
@@ -17,7 +17,7 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
      
      const mostrarDialogoEditarTarea = (idTarea) => {
         setTareaId(idTarea);
-        dialogoEditarTarea.showModal();
+        setEditarBorrarTarea(true);
     }
    // ---------------- MOSTRAR DIALOGO EDITAR ----------------
 
@@ -35,30 +35,38 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
             {openVentanaTareas && (
             <div>
                 <CrearTareaFormulario idLista={idLista} cargarTareas={cargarTareas}></CrearTareaFormulario>
-                {tareas!==undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
+                <div className='h-64 overflow-y-auto mt-5 overflow-y-auto'>
+                    {tareas!==undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
                     tareas.map((tarea) => (
-                        <li key={tarea.id}>{tarea.descripcion}
-
-                            <button className="btnEditar" onClick={() => mostrarDialogoEditarTarea(tarea.id)}>
+                        <li className='bg-Gainsboro bg-opacity-50  rounded-3xl my-4 p-3 px-10 flex justify-between'
+                        key={tarea.id}>{tarea.descripcion}
+                        
+                        <div>
+                            <button className='px-10'
+                            onClick={() => mostrarDialogoEditarTarea(tarea.id)}>
                                 <FontAwesomeIcon icon={faPen} />
                             </button>
 
                             <button className="btnBorrar" onClick={() => mostrarDialogoBorrarTarea(tarea.id)}>
                                 <FontAwesomeIcon icon={faTrashCan} />                                
                             </button>
+                        </div>
                         </li>
                     ))
                     ) : (
                         <div>
-                            <h3>No tienes ninguna tarea</h3>
+                            <p className="text-xl font-light">No tienes ninguna tarea</p>
                         </div>
                         )}
+                </div>
                     
                 <DialogoEditarTarea  
                 tareaId={tareaId} 
                 usuarioId={usuario.id} 
                 idLista={idLista} 
-                cargarTareas={cargarTareas} 
+                cargarTareas={cargarTareas}
+                modalEditarTarea={modalEditarTarea} 
+                setEditarBorrarTarea={setEditarBorrarTarea}
                 /> 
                 <DialogoBorrarTarea 
                 modalBorrarTarea={modalBorrarTarea}
