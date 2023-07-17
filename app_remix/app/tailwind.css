@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Indicamos que queremos que el texto sea de color MidnightBlue por defecto en toda la app */
 body {
     @apply text-MidnightBlue;
   }

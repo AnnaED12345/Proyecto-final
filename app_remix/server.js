@@ -1,22 +1,38 @@
 import * as fs from "node:fs";
 
+/* ESTRUCUTRA DEL DOCUMENTO: 
+
+- Importación de los módulos utilizados
+- Configuración de la aplicación de Express
+- Middlewares:
+  - BodyParser encargado de procesar los datos en formato JSON y convertirlos a objetos javaScript
+  - BodyParser.urlencoded encargado de procesar los datos en formato x-www-form-urlencoded y convertirlos a objetos javaScript
+  - Express-Session para gestionar las sesiones de usuario (almacena y permite acceder a los datos)
+  - Passport para configurar la autenticación de los usuarios
+    - passport.serializeUser() determina qué datos del usuario se almacenarán en la sesión (el usuario del id)
+    - passport.deserializeUser() asocia los datos al usuario
+    - passport-local configura una LocalStrategy para autenticar a los usuarios utilizando en este caso, su email y la contraseña
+      - utilizamos bcrypt.compare para validar los datos comparandolos con los almacenados en la base de datos
+- Gestión de rutas para login y logout
+- authorized() para la autenticación de los usuarios
+- Gestión de rutas para usuarios, listas y tareas
+*/
+
+
 import { createRequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import chokidar from "chokidar";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
-/* import rutasApp from "./db/rutas-app"; */
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 import bodyParser from "body-parser";
 import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local'; 
 import bcrypt from 'bcrypt';
-/* import rutasApp from "./db/rutas-app"; */
 
-
+const prisma = new PrismaClient();
 
 installGlobals();
 
@@ -45,12 +61,12 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
-//Gestionamos el middleware body-parser para poder recoger los datos del body:
 app.use(bodyParser.json()); 
 /* app.use(bodyParser.urlencoded({ extended: true })); */
 
 
-//-------------- GESTIÓN DE SESIONES --------------
+
+//---------------------------- GESTIÓN DE SESIONES ----------------------------
 
 //MIDDLEWARE EXPRESS-SESION
 app.use(session({
@@ -68,8 +84,9 @@ app.use(passport.session());
 passport.serializeUser(function(user, done) { //identificamos el usuario mediante el id: 
 done(null, user.id);
 });
+
 passport.deserializeUser(function(id, done) {
-    prisma.usuario.findUnique({ //utilizamos el método findUnique de Prisma para buscar al usuario por su ID en la base de datos
+    prisma.usuario.findUnique({ //para buscar al usuario por su ID en la base de datos
         where: {
           id: id,
         },
@@ -84,18 +101,17 @@ passport.deserializeUser(function(id, done) {
       });
 });
 
-//Gestión de la estrategia para manejar la autenticación: middleeware passport-local
 passport.use( 
   new LocalStrategy(function (email, password, done) {
   prisma.usuario
     .findUnique(
-      { where: { email } }) //buscamos en la bbdd al usuario utilizando el nombre de usuario proporcionado:
+      { where: { email } }) //la autenticación se realizará con el email del usuario
   
     .then((user) => {
       const valid = bcrypt.compare(password, user.password).then((valid) => {
       if (!user || !valid) return done(true); //si no coincide el usuario o la contraseña no es válida: 
       return done(null, user);
-    });//con bcrypt.compare, comparamos las contraseñas para validar si coinciden --> devuelve una promesa
+    });
   })
   .catch((err) => {
     done(err)});
@@ -103,11 +119,8 @@ passport.use(
 );
 
 
-//-------------- GESTIÓN DE SESIONES --------------
 
-/* rutasApp(app); */
-
-//-------------- RUTAS LOGIN Y LOGOUT --------------
+//---------------------------- RUTAS LOGIN Y LOGOUT ----------------------------
 
 //LOGIN
 app.post("/login", passport.authenticate("local"), (req, res) => {
@@ -119,20 +132,18 @@ app.post("/login", passport.authenticate("local"), (req, res) => {
 //LOGOUT
 app.get("/logout", function (req, res) {
     console.log(req.session);
-    //console.log(res.);
-    req.session.destroy((err) => {//si el cierre de sesion da error
+    req.session.destroy((err) => {//destroy() eliminará todos los datos de la sesión y finalizará la sesión del usuario.
       if (err) { //send 400.
         res.status(400).send();
-      } else { //si el cierre de sesión es correcto
-        /* res.redirect("/app_tareas/login");  *///se redirige al usuario a la ruta deseada
-        res.send("No login");
+      } else { 
+        res.send("No login"); //verificamos si el cierre de sesión es correcto 
       }
     })
     });
 
-//-------------- RUTAS LOGIN Y LOGOUT --------------
 
-//-------------- AUTENTICACIÓN EN RUTAS --------------
+
+//---------------------------- AUTENTICACIÓN EN RUTAS ----------------------------
 
 //middleware para la autenticación el cuál posteriormnete añadiremos en las rutas deseadas: 
 function authorized(req, res, next) {
@@ -144,15 +155,12 @@ function authorized(req, res, next) {
  next();
  }
 
-//-------------- AUTENTICACIÓN EN RUTAS --------------
 
 
 
-//-------------- CÓDIGO PARA LA GESTIÓN DE RUTAS --------------
+//---------------------------- CÓDIGO PARA LA GESTIÓN DE RUTAS ----------------------------
 
-//Definimos una función que recoja el código dónde se gestionan las rutas de la aplicación
-
-  //GET: ruta para recibir los usuarios con sus listas:
+  //GET: ruta para recibir los usuarios incluyendo sus listas:
   app.get("/users/:user_id/list", authorized, (req, res) => {
       const usuarioId = req.params.user_id;
  
@@ -161,7 +169,7 @@ function authorized(req, res, next) {
           id: usuarioId 
       },
       include: {
-          listas: true //incluye las listas
+          listas: true 
       }
   }).then((user) => {
      res.send(user);
@@ -171,7 +179,7 @@ function authorized(req, res, next) {
 })
 
   //POST: ruta para crear listas:
-  app.post("/users/:user_id/list", authorized, (req, res) => { //urlencode para parsear los datos de la información post del formulario
+  app.post("/users/:user_id/list", authorized, (req, res) => { 
       const nuevaLista = req.body.titulo
       const usuarioID = req.params.user_id
 
@@ -215,15 +223,15 @@ function authorized(req, res, next) {
   app.delete("/users/:user_id/list/:list_id", authorized, async (req, res) => {
     const listId = req.params.list_id;
 
-    try {
-      // Eliminar las tareas asociadas a la lista
+    try { // Para evitar errores en el esquema de Prisma y poder eliminar las listas aun que estas contengan tareas:
+      // Primero eliminamos las tareas asociadas a la lista
       await prisma.tarea.deleteMany({
         where: {
           listaId: listId,
         },
       });
   
-      // Eliminar la lista
+      // Después eliminamos la lista
       const listaEliminada = await prisma.lista.delete({
         where: {
           id: listId,
@@ -246,7 +254,7 @@ function authorized(req, res, next) {
           id: listaId 
       },
       include: {
-          tareas: true //incluye las tareas
+          tareas: true
       }
   }).then((tareas) => {
      res.send(tareas);
@@ -256,28 +264,32 @@ function authorized(req, res, next) {
 }) 
 
   //POST: ruta para crear tareas:
-  app.post("/:user_id/list/:list_id/tasks", /* bodyParser.urlencoded(), */ authorized, (req, res) => {
+  //este POST se realizará con el formulario directamente desde el navegador, con lo cuál utilizamos el middleware bodyParser.urlencoded()
+  app.post("/:user_id/list/:list_id/tasks", /* bodyParser.urlencoded(), */ authorized, (req, res) => { 
       const nuevaTarea1 = req.body.descripcion
       const listaId = req.params.list_id
 
-      prisma.tarea.create ({
+      prisma.tarea
+        .create({
           data: {
-              descripcion: nuevaTarea1,
-              
-              lista: { 
-                  connect: { //conectamos la creación de la tarea a la lista
-                      id: listaId
-                  }
+            descripcion: nuevaTarea1,
+
+            lista: {
+              connect: {
+                id: listaId,
+              },
             },
-          }
-              }).then(nuevaTarea => {
-                console.log(nuevaTarea.descripcion);
-                console.log("createTask");
-                  res.status(201).send(nuevaTarea);
-          }).catch(error => {
-              res.status(400).send(error);
-              console.log("error");
-          } )
+          },
+        })
+        .then((nuevaTarea) => {
+          console.log(nuevaTarea.descripcion);
+          console.log("createTask");
+          res.status(201).send(nuevaTarea);
+        })
+        .catch((error) => {
+          res.status(400).send(error);
+          console.log("error");
+        });
   });
 
   //Put: ruta para editar tareas:

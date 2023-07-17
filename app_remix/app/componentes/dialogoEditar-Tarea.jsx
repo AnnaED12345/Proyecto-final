@@ -54,28 +54,23 @@ export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarT
                 onSubmit={onSubmitTarea}
               >
                 <label
-                  className="text-MidnightBlue text-xl md:text-2xl text-left pb-6"
+                  className="text-MidnightBlue text-2xl text-left pb-6"
                   id="cajaIngresar"
                   htmlFor="lista"
                 >
-                  ¿Qué nombre deseas asignarle a tu tarea?
+                  ¿Deseas cambiar el nombre de la tarea?
                 </label>
 
-                <div class="relative pb-5">
+               
                   <input
-                    className="border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full"
+                    className="mb-6 border border-SlateGrat shadow-xl rounded-md pl-5 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full"
                     type="text"
                     placeholder="Actualiza tu tarea..."
                     name="tarea_actualizada"
                     id="tarea_actualizadaID"
                     onChange={(event) => setTareaActualizada(event.target.value)}
                   />
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    size="lg"
-                    className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
-                  />
-                </div>
+                  
 
                 {error && (
                   <p id="errores" className="text-red-600 text-lg">

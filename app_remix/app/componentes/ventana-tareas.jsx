@@ -6,7 +6,7 @@ import DialogoBorrarTarea from './dialogoBorrar-Tarea';
 import { useState } from 'react';
 
 
-export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, openVentanaTareas, setopenVentanaTareas}) {
+export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, openVentanaTareas, listaTitulo}) {
 
     const [modalBorrarTarea, setModalBorrarTarea] = useState(false);
     const [modalEditarTarea, setEditarBorrarTarea] = useState(false);
@@ -34,8 +34,8 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
         <div>
             {openVentanaTareas && (
             <div>
-                <CrearTareaFormulario idLista={idLista} cargarTareas={cargarTareas}></CrearTareaFormulario>
-                <div className='h-64 overflow-y-auto mt-5 overflow-y-auto'>
+                <CrearTareaFormulario idLista={idLista} cargarTareas={cargarTareas} listaTitulo={listaTitulo}></CrearTareaFormulario>
+                <div className='h-80 overflow-y-auto mt-2 overflow-y-auto'>
                     {tareas!==undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
                     tareas.map((tarea) => (
                         <li className='bg-Gainsboro bg-opacity-50  rounded-3xl my-4 p-3 px-10 flex justify-between'

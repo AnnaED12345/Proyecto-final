@@ -3,7 +3,8 @@ import { faEnvelope, faPlus} from '@fortawesome/free-solid-svg-icons';
 import { useParams } from '@remix-run/react';
 import { useState } from 'react';
 
-export default function CrearTareaFormulario ({idLista, cargarTareas} ) {
+export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitulo} ) {
+    console.log("listaSeleccionada", listaTitulo)
   const {user_id}=useParams();
     const [tareaCreada, setTareaCreada] = useState(""); //definimos una variable que actualizaremos con los datos recibidos del fetch
     const [error, setError] = useState(""); //para actualizar el valor del error
@@ -36,13 +37,15 @@ export default function CrearTareaFormulario ({idLista, cargarTareas} ) {
 
     return (
         <div className='grid grid-cols-3'>
+            
              <form className='flex flex-col col-span-2'
              onSubmit={submitTarea} /* method='post' action={`/${user_id}/list/${idLista}/tasks`} */>
-                
+                <p className='my-2 text-lg font-light'>Estás en {listaTitulo}:</p>
+
                 <label className='text-2xl mb-3 '
                 htmlFor="tarea">Añade una nueva tarea:</label>
 
-                    <div className="relative pb-5">
+                    <div className="relative pb-8">
                         <input
                             className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full'
                             type="text"
@@ -52,7 +55,7 @@ export default function CrearTareaFormulario ({idLista, cargarTareas} ) {
                             value={tareaCreada}
                             onChange={(event) => setTareaCreada(event.target.value)}
                         />
-                        <FontAwesomeIcon className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
+                        <FontAwesomeIcon className="absolute right-6 top-6 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
                             icon={faPlus} 
                             size="lg"
                             onClick={submitTarea}

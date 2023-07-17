@@ -51,16 +51,15 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas, mod
                     onSubmit={onSubmitLista}>
 
                     <label
-                    className='text-MidnightBlue text-xl md:text-2xl text-left pb-6'
+                    className='text-MidnightBlue text-2xl text-left pb-6'
                     id="cajaIngresar"
                     htmlFor="lista"
                     >
-                    ¿Qué título quieres ponerle a tu lista?
+                    ¿Deseas cambiar el nombre de la lista?
                     </label>
 
-                    <div class="relative pb-5">
                         <input
-                            className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-MidnightBlue text-md md:text-lg sm:text-base block w-full'
+                            className='mb-6 border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-MidnightBlue text-md md:text-lg sm:text-base '
                                 type="text"
                                 placeholder="Actualiza tu lista..."
                                 name="lista_actualizada"
@@ -68,12 +67,6 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas, mod
                                 onChange={(event) => setListaActualizada(event.target.value)}
                             style={{ textIndent: '10px', paddingLeft: '10px' }}
                         />
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            size="lg"
-                            className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
-                        />
-                    </div>
 
                     {error && (
                     <p id="errores" className="text-red-600 text-lg">

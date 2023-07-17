@@ -33,8 +33,8 @@ export default function DialogoBorrarTarea({ tareaId, usuarioId, idLista, cargar
               <div className='flex items-center justify-center mb-5'>
                 <FontAwesomeIcon className='text-SlateGray text-3xl' icon={faTriangleExclamation} />
               </div>
-              <p className="text-MidnightBlue">¿Estás seguro de que deseas borrar esta tarea?</p>
-              <div className='grid grid-cols-2 gap-3 mt-6'>
+              <p className="text-MidnightBlue text-lg font-bold">¿Estás seguro de que deseas borrar esta tarea?</p>
+              <div className='grid grid-cols-2 gap-3 mt-8'>
                 <button className='bg-Gainsboro hover:bg-MintGreen text-gray-800 font-thin md:text-lg py-2 rounded-md'
                   onClick={onConfirmarBorrarTarea}>
                   Aceptar

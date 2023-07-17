@@ -10,31 +10,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//Establecemos los modelos Prisma y las relaciones entre estos. 
+// ESTRCUTURA:
+// - Modelo Usuario
+// - Modelo Lista
+// - Modelo Tarea
+//   - Todos contienen: 
+//     - Un identificador que se generará automáticamente con un valor único
+//     - El nombre que se le dará (nombre de usuario, título de la lista, y descripcion de la tarea)
+//     - Relación uno a muchos
+//       - Un usuario puede tener muchas listas / Una lista solo tiene un usuario
+//       - Una lista puede tener muchas tareas / Una tarea solo tiene una lista
+//     - Además, el usuario contiene un campo para la contaseñas y otro para el email con la etiqueta @unique (evitando así que se puedan generar dos usuarios con el mismo correo)
 
-
-//Definimos el modelo de Usuario con un id, un nombre, un email para identificar al usuario, su respectiva contraseña y lo vamos a relacionar con el modelo Lista: 
 model Usuario {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  email String @unique
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
   password String
-  listas Lista[]
+  listas   Lista[]
 }
 
-//Definimos el modelo de Lista con un id, un titulo y crearemos una relación con el Usuario y la Tarea: 
 model Lista {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  titulo String
-  usuario Usuario @relation(fields: [usuarioId], references: [id])
-  usuarioId String @db.ObjectId
-  tareas Tarea[]
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  titulo    String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String  @db.ObjectId
+  tareas    Tarea[]
 }
 
-//Definimos el modelo de Tarea con un id, una descripcion y crearemos una relación con Lista: 
 model Tarea {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   descripcion String
-  lista Lista @relation(fields: [listaId], references: [id])
-  listaId String @db.ObjectId
+  lista       Lista  @relation(fields: [listaId], references: [id])
+  listaId     String @db.ObjectId
 }

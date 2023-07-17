@@ -54,29 +54,24 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                     onSubmit={submitLista}>
 
                     <label
-                    className='text-xl md:text-2xl text-left pb-6'
+                    className='text-2xl md:text-2xl text-left pb-6'
                     id="cajaIngresar"
                     htmlFor="lista"
                     >
-                    ¿Qué título quieres ponerle a tu lista?
+                    ¿Qué título te gustaría ponerle a tu nueva lista?
                     </label>
 
-                    <div class="relative pb-5">
+                   
                         <input
-                            className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full'
+                            className='mb-6 sborder border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-lg md:text-lg sm:text-base '
                             type="text"
-                            placeholder="Añade una lista..."
+                            placeholder="Añade una lista nueva..."
                             name="lista"
                             id="listID"
                             value={listaCreada}
                             onChange={(event) => setListaCreada(event.target.value)}
                         />
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            size="lg"
-                            className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
-                        />
-                    </div>
+        
 
                     {error && (
                     <p id="errores" className="text-red-600 text-lg">
@@ -86,12 +81,12 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
 
                     <div className='grid grid-cols-2 gap-3 mt-6'>
                         <button
-                            className='bg-Gainsboro hover:bg-MintGreen text-gray-800 font-thin md:text-lg py-2 rounded-md'
+                            className='bg-Gainsboro hover:bg-MintGreen text-gray-800 font-thin text-lg py-2 rounded-md'
                             type="submit">
                             Aceptar
                         </button>
                         <button
-                            className='bg-Gainsboro hover:bg-BurntSienna text-gray-800 font-thin md:text-lg py-2 rounded-md'
+                            className='bg-Gainsboro hover:bg-BurntSienna text-gray-800 font-thin text-lg py-2 rounded-md'
                             onClick={onCancelarListaHandle}>
                             Cancelar
                         </button>
