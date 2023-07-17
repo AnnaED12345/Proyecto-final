@@ -36,7 +36,7 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                         setListaCreada("");       
                         
                       } else { 
-                            const error = await post.text(); //gestionamos el error
+                            const error = await post.text(); 
                             setError(error);
                       }
                     }
@@ -61,9 +61,9 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                     ¿Qué título quieres ponerle a tu lista?
                     </label>
 
-                    <div class="relative pb-5">
+                    
                         <input
-                            className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full'
+                            className='border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full mb-6'
                             type="text"
                             placeholder="Añade una lista..."
                             name="lista"
@@ -71,15 +71,10 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                             value={listaCreada}
                             onChange={(event) => setListaCreada(event.target.value)}
                         />
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            size="lg"
-                            className="absolute right-6 top-5 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
-                        />
-                    </div>
+                    
 
                     {error && (
-                    <p id="errores" className="text-red-600 text-md">
+                    <p id="errores" className="text-red-600 text-lg">
                         {error}
                     </p>
                     )}

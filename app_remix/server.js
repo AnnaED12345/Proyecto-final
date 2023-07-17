@@ -14,7 +14,6 @@ import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local'; 
 import bcrypt from 'bcrypt';
-/* import rutasApp from "./db/rutas-app"; */
 
 
 
