@@ -59,7 +59,7 @@ export default function CrearTareaFormulario ({idLista, cargarTareas} ) {
                         />
                     </div>
                             {error && ( 
-                        <p id="errores" style={{ color: "red" }}>
+                        <p id="errores" className="text-red-600 text-lg">
                             {error}
                         </p>
                     )}

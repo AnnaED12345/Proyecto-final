@@ -79,7 +79,7 @@ export default function CrearListaFormulario ({user_id, dialogoCrearLista, setDi
                     </div>
 
                     {error && (
-                    <p id="errores" className="text-red-600 text-md">
+                    <p id="errores" className="text-red-600 text-lg">
                         {error}
                     </p>
                     )}

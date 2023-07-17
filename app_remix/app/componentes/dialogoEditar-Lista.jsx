@@ -76,7 +76,7 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas, mod
                     </div>
 
                     {error && (
-                    <p id="errores" className="text-red-600 text-md">
+                    <p id="errores" className="text-red-600 text-lg">
                         {error}
                     </p>
                     )}
