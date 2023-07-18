@@ -38,7 +38,7 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
                 <div className='h-80 overflow-y-auto mt-2 overflow-y-auto'>
                     {tareas!==undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
                     tareas.map((tarea) => (
-                        <li className='bg-Gainsboro bg-opacity-50  rounded-3xl my-4 p-3 px-10 flex justify-between'
+                        <li className='bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-4 p-3 px-10 flex justify-between'
                         key={tarea.id}>{tarea.descripcion}
                         
                         <div>

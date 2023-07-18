@@ -2,14 +2,13 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import bcrypt from 'bcrypt';
 
-// //Script para la creación de usuarios: 
-
-// /* ESTRUCTURA DEL DOCUMENTO: 
-// - crearUsuarios() función para la creación de los usuarios: 
-//     - código para la encriptación de la contaseña utilizando bcrypt
-//     - Prisma.createMany
-// - Creación de los usuarios manualmente
-//  */
+/* Script para la creación de usuarios: 
+ESTRUCTURA DEL DOCUMENTO: 
+  - crearUsuarios() función para la creación de los usuarios: 
+     - código para la encriptación de la contaseña utilizando bcrypt
+     - Prisma.createMany
+ - Creación de los usuarios manualmente
+*/
 
 
         async function crearUsuarios (nombre, email, password) {

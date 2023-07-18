@@ -73,14 +73,13 @@ export default function GetListas ({usuario, listas, openVentanaListas}) {
                 <div className="h-64 lg:h-80 overflow-y-auto m-5 mb-10 rounded-xl overflow-x-hidden">
                     {listas.length > 0 ? (
                     listas.map((lista) => (
-                        <ul className="p-2 text-lg text-white" key={lista.id}>
-                        <button className="bg-SlateGray hover:bg-MidnightBlue py-1.5 px-6 rounded-3xl flex justify-between w-full"
+                        <ul className="my-4 text-lg text-white" key={lista.id}>
+                        <button className="bg-SlateGray hover:bg-MidnightBlue px-6 rounded-3xl flex items-center justify-between w-full"
                             key={lista.id}
-                            onClick={() => onAbrirListaHandle(lista.id, lista.titulo)}
-                        >
+                            onClick={() => onAbrirListaHandle(lista.id, lista.titulo)}>
                             {lista.titulo}
-                            <button className="ml-6 mt-1" onClick={onBtnOpcionesHandle}>
-                            <FontAwesomeIcon className="text-2xl" icon={faEllipsisVertical} />
+                            <button className="py-1.5 px-2 ml-6 mt-1" onClick={onBtnOpcionesHandle}>
+                              <FontAwesomeIcon className="text-2xl" icon={faEllipsisVertical} />
                             </button>
                         </button>
                         {listaSeleccionada === lista.id && (

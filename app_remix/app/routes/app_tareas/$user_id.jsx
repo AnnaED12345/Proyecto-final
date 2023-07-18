@@ -24,32 +24,36 @@ import CrearListaFormulario from "../../componentes/dialogoCrear-Lista";
         - Componente get-Listas --> carga las listas del usuario
     - No hay usuario: 
         - Se muestra un mensaje "Cargando..." 
-        */
+
+* COMENTARIOS ADICIONALES: 
+    - Todas las variables almacenan lo que su propio nombre indica, en caso de que no sea así, se especificará a lo largo del código.
+    - Al lado de cada varible se especificará el tipo de dato que alamena. 
+*/
 
 
 
 export default function AppTareas () {
-  const { user_id } = useParams();
-  const [usuario, setUsuario] = useState();
-  const [listas, setListas] = useState();
+  const { user_id } = useParams(); //string
+  const [usuario, setUsuario] = useState(); //String
+  const [listas, setListas] = useState(); //array que contiene id, titulo y usuarioId de la lista
 
   async function cargarUsuario() {
     const respuesta = await fetch(`/users/${user_id}/list`);
     const datos = await respuesta.json();
     setUsuario(datos);
-    setListas(datos.listas);
+    setListas(datos.listas); 
   }
 
-  useEffect(() => {
+  useEffect(() => { //lo utilizamos para que la petición se realicé solo una vez
     cargarUsuario();
-  }, []);
+  }, []); 
 
   async function submitLogout(event) {
     event.preventDefault();
 
     const response = await fetch(`/logout`);
     if (response.ok) {
-      window.location.href = "/app_tareas/";
+      window.location.href = "/app_tareas/"; //redirigimos de vuelta a la pantalla de login
     } else {
       console.error("Error en el logout");
     }

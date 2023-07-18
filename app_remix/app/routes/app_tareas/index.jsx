@@ -9,17 +9,21 @@ import { useState } from "react";
         - Si la respuesta es Ok se redirige el usuario a la pestaña $user_id
 - Return: 
     - Renderiza la pestaña de login con un formulario para que el usuario pueda introducir los datos. 
+
+ * COMENTARIOS ADICIONALES: 
+    - Todas las variables almacenan lo que su propio nombre indica, en caso de que no sea así, se especificará a lo largo del código.
+    - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
 
 export default function SeleccionaUsuario () {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [email, setEmail] = useState(""); //string
+    const [password, setPassword] = useState(""); //string
+    const [error, setError] = useState(""); //string
     
     async function submitLogin (event) { 
-        event.preventDefault();
+        event.preventDefault(); //evita la recarga de la página
 
         const response = await fetch(`/login`, { 
             method: "POST",
@@ -31,12 +35,12 @@ export default function SeleccionaUsuario () {
             }
         })
     
-    if (response.ok) { 
-        const contentType = response.headers.get("content-type");
+    if (response.ok) { //si la respuesta es Ok: 
+        const contentType = response.headers.get("content-type"); 
         if (contentType && contentType.includes("application/json")) { //si contiene content-type:
           const user = await response.json();
           window.location.href = `/app_tareas/${user.id}`; //se redirige al usuario a su app de tareas mediante el id
-        } else {
+        } else { 
           setError("La respuesta no contiene datos JSON"); 
         }
       } else {
@@ -47,12 +51,12 @@ export default function SeleccionaUsuario () {
 
     return (
       <main className="bg-Gainsboro h-screen flex items-center justify-center ">
-        <fieldset className="bg-white py-10 sm:py-16 px-20 sm:px-28 md:px-32 rounded-3xl">
-          <h1 className="text-center text-4xl sm:text-5xl font-bold pb-2">
+        <section className="bg-white py-12 sm:py-16 px-16 sm:px-20 md:px-26 rounded-3xl">
+          <h1 className="text-center text-4xl sm:text-5xl font-bold pb-3">
             Bienvenid@
           </h1>
-          <h2 className="text-center text-xl sm:text-2xl font-light pb-8">
-            Inserta tus datos:
+          <h2 className="text-center text-xl sm:text-2xl font-light pb-10">
+            ¡Empieza ya insertando tus datos!
           </h2>
           <form onSubmit={submitLogin}>
             <div>
@@ -63,7 +67,7 @@ export default function SeleccionaUsuario () {
                 Email:
               </label>
               <input
-                className="bg-Gainsboro rounded-3xl font-light text-md sm:text-base block w-full p-2 px-8 mb-4"
+                className="bg-Gainsboro rounded-3xl font-light block w-full p-2 px-8 mb-4"
                 type="text"
                 name="username"
                 placeholder="email@gmail.com"
@@ -72,7 +76,7 @@ export default function SeleccionaUsuario () {
               />
             </div>
 
-            <fieldset>
+            <section>
               <label
                 className="block mb-4 text-lg sm:text-xl font-light text-MidnightBlue"
                 htmlFor="password"
@@ -80,7 +84,7 @@ export default function SeleccionaUsuario () {
                 Contraseña:
               </label>
               <input
-                className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light text-md sm:text-base block w-full p-2 px-8 mb-4"
+                className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light block w-full p-2 px-8 mb-4"
                 type="password"
                 name="password"
                 placeholder="contraseña"
@@ -89,7 +93,7 @@ export default function SeleccionaUsuario () {
               />
 
               <p className="text-red-600 text-md mt-4">{error}</p>
-            </fieldset>
+            </section>
 
             <div>
               <button className="w-full text-MidnightBlue bg-MintGreen hover:saturate-50 font-bold rounded-3xl text-sm md:text-lg px-5 py-2.5 my-7 text-center">
@@ -97,7 +101,7 @@ export default function SeleccionaUsuario () {
               </button>
             </div>
           </form>
-        </fieldset>
+        </section>
       </main>
     );
 }

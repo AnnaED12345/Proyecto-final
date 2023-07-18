@@ -40,7 +40,7 @@ export default function BotonOpciones ({usuario, listaId, btnOpciones, settnOpci
         <div className="flex justify-center">
             {btnOpciones && ( 
             <ul className="flex">{opciones.map((opcion) => (
-                <button className="text-MidnightBlue px-4 pt-2"
+                <button className="text-MidnightBlue opacity-70 hover:opacity-100 px-4 pt-3"
                 id="opciones" key={opcion} 
                     onClick={() => {
                         if (opcion === "Borrar") { 
