@@ -139,7 +139,7 @@ app.get("/logout", function (req, res) {
       if (err) { //send 400.
         res.status(400).send();
       } else { 
-        res.send("No login"); //verificamos si el cierre de sesión es correcto 
+        res.send("Not login"); //verificamos si el cierre de sesión es correcto 
       }
     })
     });
