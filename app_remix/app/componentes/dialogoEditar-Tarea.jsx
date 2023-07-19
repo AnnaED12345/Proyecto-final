@@ -1,18 +1,34 @@
 import { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faPlus } from '@fortawesome/free-solid-svg-icons';
-
-export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarTareas, modalEditarTarea, setEditarBorrarTarea}) {
-
-    const [error, setError] = useState(""); //para actualizar el valor del error
 
 
-    const onCancelarEditarTarea = (event) => {
-        event.preventDefault()
-        setEditarBorrarTarea(false);
-    }
+/* Pestaña app tareas de cada usuario: 
+  ESTRUCTURA
+- Componente DialogoEditarTarea:
+    - Variables definidas
+    - Función onSubmitTarea 
+    Condicional: Validación del input
+        else:     
+            - Variable Options dónde se indica el tipo de método del fetch y el contenido
+            - Petición fetch a la ruta `/${usuarioId}/list/${idLista}/tasks/${tareaId}` con método PUT para editar las tareas del usuario
+    - Evento onCancelarEditarTarea
 
-    const [tareaActualizada, setTareaActualizada] = useState(" ")
+- Return: 
+    - Condicional: Si modalEditarTarea es true: 
+      - Formulario para añadir la nueva descripcion de la tarea
+      - Button Aceptar
+      - Button Cancelar
+
+ * COMENTARIOS ADICIONALES: 
+    - Todas las variables almacenan lo que su propio nombre indica, en caso de que no sea así, se especificará a lo largo del código.
+    - Al lado de cada varible se especificará el tipo de dato que alamena. 
+ */
+
+
+
+export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarTareas, modalEditarTarea, setModalEditarTarea}) {
+
+    const [error, setError] = useState(""); //String. Se actualiza con el valor del error
+    const [tareaActualizada, setTareaActualizada] = useState(" ")//String. Se actualiza con la tarea indicada en el input
 
     const onSubmitTarea = (event) => {
         if (tareaActualizada === null || tareaActualizada === "" || tareaActualizada === " " || tareaActualizada.length < 0){
@@ -34,7 +50,7 @@ export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarT
                 .then((res) => {  
                     if (res.ok) { 
                     cargarTareas(idLista);
-                    setEditarBorrarTarea(false);  
+                    setModalEditarTarea(false);  
             
                 } else {
                     console.log(error);
@@ -42,6 +58,11 @@ export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarT
             })
             }     
         } 
+
+        const onCancelarEditarTarea = (event) => {
+          event.preventDefault()
+          setModalEditarTarea(false);
+      }
 
 
     return (
@@ -61,16 +82,14 @@ export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarT
                   ¿Deseas cambiar el nombre de la tarea?
                 </label>
 
-               
-                  <input
-                    className="mb-6 border border-SlateGrat shadow-xl rounded-md pl-5 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full"
-                    type="text"
-                    placeholder="Actualiza tu tarea..."
-                    name="tarea_actualizada"
-                    id="tarea_actualizadaID"
-                    onChange={(event) => setTareaActualizada(event.target.value)}
-                  />
-                  
+                <input
+                  className="mb-6 border border-SlateGrat shadow-xl rounded-md pl-5 pr-3 py-2 font-light text-md md:text-lg sm:text-base block w-full"
+                  type="text"
+                  placeholder="Actualiza tu tarea..."
+                  name="tarea_actualizada"
+                  id="tarea_actualizadaID"
+                  onChange={(event) => setTareaActualizada(event.target.value)}
+                />
 
                 {error && (
                   <p id="errores" className="text-red-600 text-lg">

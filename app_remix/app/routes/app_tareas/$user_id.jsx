@@ -1,10 +1,8 @@
 import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import CrearTareaFormulario from "../../componentes/crear-tarea";
-import GetListas from "../../componentes/get-listas";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faSpinner, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import CrearListaFormulario from "../../componentes/dialogoCrear-Lista";
+import { faSpinner, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import GetListas from "../../componentes/get-listas";
 
 
 
@@ -31,11 +29,10 @@ import CrearListaFormulario from "../../componentes/dialogoCrear-Lista";
 */
 
 
-
 export default function AppTareas () {
-  const { user_id } = useParams(); //string
+  const { user_id } = useParams(); //String
   const [usuario, setUsuario] = useState(); //String
-  const [listas, setListas] = useState(); //array que contiene id, titulo y usuarioId de la lista
+  const [listas, setListas] = useState(); //Array. Contiene id, titulo y usuarioId de la lista
 
   async function cargarUsuario() {
     const respuesta = await fetch(`/users/${user_id}/list`);
@@ -77,7 +74,7 @@ export default function AppTareas () {
             </button>
           </header>
 
-          <GetListas usuario={usuario} listas={listas}></GetListas>
+          <GetListas usuario={usuario} listas={listas}></GetListas> 
         </section>
       ) : (
         <div className="text-SlateGray flex flex-col justify-center items-center h-screen">
