@@ -50,7 +50,7 @@ export default function SeleccionaUsuario () {
 
   return (
     <main className="bg-Gainsboro h-screen flex items-center justify-center ">
-      <section className="bg-white py-12 sm:py-16 px-16 sm:px-20 md:px-26 rounded-3xl">
+      <section className="bg-white py-12 sm:py-16 px-6 sm:px-20 md:px-26 rounded-3xl">
         <h1 className="text-center text-4xl sm:text-5xl font-bold pb-3">
           Bienvenid@
         </h1>
