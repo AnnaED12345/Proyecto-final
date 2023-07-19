@@ -50,7 +50,8 @@ export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarT
                 .then((res) => {  
                     if (res.ok) { 
                     cargarTareas(idLista);
-                    setModalEditarTarea(false);  
+                    setModalEditarTarea(false); 
+                    setTareaActualizada(" "); 
             
                 } else {
                     console.log(error);
