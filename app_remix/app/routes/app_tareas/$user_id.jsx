@@ -5,7 +5,6 @@ import { faSpinner, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-
 import GetListas from "../../componentes/get-listas";
 
 
-
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA:
 - Componente AppTareas:
@@ -38,12 +37,13 @@ export default function AppTareas () {
     const respuesta = await fetch(`/users/${user_id}/list`);
     const datos = await respuesta.json();
     setUsuario(datos);
-    setListas(datos.listas); 
+    setListas(datos.listas);
   }
 
-  useEffect(() => { //lo utilizamos para que la petición se realicé solo una vez
+  useEffect(() => {
+    //lo utilizamos para que la petición se realicé solo una vez
     cargarUsuario();
-  }, []); 
+  }, []);
 
   async function submitLogout(event) {
     event.preventDefault();
@@ -74,7 +74,7 @@ export default function AppTareas () {
             </button>
           </header>
 
-          <GetListas usuario={usuario} listas={listas}></GetListas> 
+          <GetListas usuario={usuario} listas={listas}></GetListas>
         </section>
       ) : (
         <div className="text-SlateGray flex flex-col justify-center items-center h-screen">

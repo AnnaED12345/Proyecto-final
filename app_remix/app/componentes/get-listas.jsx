@@ -41,125 +41,126 @@ import CrearListaFormulario from "./dialogoCrear-Lista";
 */
 
 
-export default function GetListas ({usuario, listas}) { 
+export default function GetListas ({usuario, listas}) {
+  const [listaSeleccionada, setListaSeleccionada] = useState(false); //Boolean. Estado para abrir el menu de opciones de cada lista.
+  const [openVentanaTareas, setOpenVentanaTareas] = useState(false); //Boolean. Estado para abrir el componente VentanaTareas.
+  const [modalCrearLista, setModalCrearLista] = useState(false); //Boolean. Estado para abrir la ventana modal para crear una lista.
+  const [btnOpciones, setBtnOpciones] = useState(true); //Boolean. Estado para el boton de opciones.
+  const [listaTitulo, setlistaTitulo] = useState(); //almacena el titulo de la lista para ser utilizado posteriormente en VentanaTareas. Inicialmente es undefined y almacena un string al hacer click en una lista.
+  const { user_id } = useParams(); //String
+  const [tareas, setTareas] = useState([]); //Array. Contiene id, descripción y listaID de cada tarea
+  const [idLista, setIdLista] = useState(); //String
 
-    const [listaSeleccionada, setListaSeleccionada] = useState(false); //Boolean. Estado para abrir el menu de opciones de cada lista. 
-    const [openVentanaTareas, setOpenVentanaTareas] = useState(false); //Boolean. Estado para abrir el componente VentanaTareas. 
-    const [modalCrearLista, setModalCrearLista] = useState(false); //Boolean. Estado para abrir la ventana modal para crear una lista. 
-    const [btnOpciones, setBtnOpciones] = useState(true); //Boolean. Estado para el boton de opciones.
-    const [listaTitulo, setlistaTitulo] = useState(); //almacena el titulo de la lista para ser utilizado posteriormente en VentanaTareas. Inicialmente es undefined y almacena un string al hacer click en una lista.
-    const {user_id} = useParams(); //String
-    const [tareas, setTareas] = useState([]); //Array. Contiene id, descripción y listaID de cada tarea
-    const [idLista, setIdLista] = useState(); //String
-    
-    async function cargarTareas (listId) { 
-        const respuesta = await fetch (`/${user_id}/list/${listId}/tasks`); 
-        const datos = await respuesta.json(); 
-        setTareas(datos.tareas);
-    };
+  async function cargarTareas(listId) {
+    const respuesta = await fetch(`/${user_id}/list/${listId}/tasks`);
+    const datos = await respuesta.json();
+    setTareas(datos.tareas);
+  }
 
-    const onAbrirListaHandle = ((listId, listaTitulo) => { // Al hacer click en la lista se abre una ventana con sus respectivas tareas. Aplicado a cada lista.
-        setOpenVentanaTareas(true);
-        setIdLista(listId); 
-        cargarTareas(listId);
-        setlistaTitulo(listaTitulo)
-    });
+  const onAbrirListaHandle = (listId, listaTitulo) => {
+    // Al hacer click en la lista se abre una ventana con sus respectivas tareas. Aplicado a cada lista.
+    setOpenVentanaTareas(true);
+    setIdLista(listId);
+    cargarTareas(listId);
+    setlistaTitulo(listaTitulo);
+  };
 
-    const mostrarModalCrearHandle = () => { //Muestra un dialogo que te permite crear una nueva lista. Aplicado al botón "Crear Lista"
-        setModalCrearLista(true);
-    }
+  const mostrarModalCrearHandle = () => {
+    //Muestra un dialogo que te permite crear una nueva lista. Aplicado al botón "Crear Lista"
+    setModalCrearLista(true);
+  };
 
-    const onBtnOpcionesHandle = () => { //Abre el botón de opciones que permite editar o borrar la lista.
-        setListaSeleccionada(idLista)
-        setBtnOpciones(btnOpciones ? false : true);
-    }
+  const onBtnOpcionesHandle = () => {
+    //Abre el botón de opciones que permite editar o borrar la lista.
+    setListaSeleccionada(idLista);
+    setBtnOpciones(btnOpciones ? false : true);
+  };
 
-
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-20 mt-5 ">
-        <section
-          id="box-listas"
-          className="flex flex-col bg-Gainsboro col-span-1 md:col-span-1 rounded-3xl px-3 py-2"
-        >
-          <div className="h-64 lg:h-80 overflow-y-auto m-5 mb-10 rounded-xl overflow-x-hidden">
-            {listas.length > 0 ? (
-              listas.map((lista) => (
-                <ul className="my-4 text-lg text-white" key={lista.id}>
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-20 mt-8 ">
+      <section
+        id="box-listas"
+        className="flex flex-col bg-Gainsboro col-span-1 md:col-span-1 rounded-3xl px-3 py-2"
+      >
+        <div className="h-64 lg:h-80 overflow-y-auto m-5 mb-10 rounded-xl overflow-x-hidden">
+          {listas.length > 0 ? (
+            listas.map((lista) => (
+              <ul className="my-4 text-lg text-white" key={lista.id}>
+                <button
+                  className="bg-SlateGray hover:bg-MidnightBlue px-6 rounded-3xl flex items-center justify-between w-full"
+                  key={lista.id}
+                  onClick={() => onAbrirListaHandle(lista.id, lista.titulo)}
+                >
+                  {lista.titulo}
                   <button
-                    className="bg-SlateGray hover:bg-MidnightBlue px-6 rounded-3xl flex items-center justify-between w-full"
-                    key={lista.id}
-                    onClick={() => onAbrirListaHandle(lista.id, lista.titulo)}
+                    className="py-1.5 px-2 ml-6 mt-1"
+                    onClick={onBtnOpcionesHandle}
                   >
-                    {lista.titulo}
-                    <button
-                      className="py-1.5 px-2 ml-6 mt-1"
-                      onClick={onBtnOpcionesHandle}
-                    >
-                      <FontAwesomeIcon
-                        className="text-2xl"
-                        icon={faEllipsisVertical}
-                      />
-                    </button>
-                  </button>
-                  {listaSeleccionada === lista.id && (
-                    <BotonOpciones
-                      usuario={usuario}
-                      listaId={lista.id}
-                      listaSeleccionada={listaSeleccionada}
-                      setOpenVentanaTareas={setOpenVentanaTareas}
-                      btnOpciones={btnOpciones}
-                      setBtnOpciones={setBtnOpciones}
+                    <FontAwesomeIcon
+                      className="text-2xl"
+                      icon={faEllipsisVertical}
                     />
-                  )}
-                </ul>
-              ))
-            ) : (
-              <p className="text-center my-10 text-xl font-light">
-                No tienes ninguna lista
-              </p>
-            )}
-          </div>
-          <div className="mb-10 mt-auto mx-auto">
-            <button
-              className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 text-xl font-light px-6"
-              onClick={mostrarModalCrearHandle}
-            >
-              Crear Lista
-            </button>
-            <CrearListaFormulario
-              user_id={user_id}
-              modalCrearLista={modalCrearLista}
-              setModalCrearLista={setModalCrearLista}
-            />
-          </div>
-        </section>
-
-        <section id="box-tareas" className="md:col-span-2">
-          <h1 className="text-3xl mb-3 font-bold">Hola, {usuario.name}</h1>
-          {openVentanaTareas === true ? (
-            <VentanaTareas
-              tareas={tareas}
-              usuario={usuario}
-              idLista={idLista}
-              cargarTareas={cargarTareas}
-              openVentanaTareas={openVentanaTareas}
-              setOpenVentanaTareas={setOpenVentanaTareas}
-              listaTitulo={listaTitulo}
-            ></VentanaTareas>
+                  </button>
+                </button>
+                {listaSeleccionada === lista.id && (
+                  <BotonOpciones
+                    usuario={usuario}
+                    listaId={lista.id}
+                    listaSeleccionada={listaSeleccionada}
+                    setOpenVentanaTareas={setOpenVentanaTareas}
+                    btnOpciones={btnOpciones}
+                    setBtnOpciones={setBtnOpciones}
+                  />
+                )}
+              </ul>
+            ))
           ) : (
-            <div className="bg-MidnightBlue p-8 rounded-3xl font-light col-span-1">
-              <h1 className="text-2xl text-white mb-6">
-                Esta es tu App de tareas
-              </h1>
-              <h2 className="text-2xl text-white mb-2">
-                Antes de empezar... seleccione una lista.
-              </h2>
-              <h3 className="text-lg text-white mb-8">
-                Si no tienes ninguna lista, añade una lista en 'Crear lista'
-              </h3>
-            </div>
+            <p className="text-center my-10 text-xl font-light">
+              No tienes ninguna lista
+            </p>
           )}
-        </section>
-      </div>
-    );   
-    }      
+        </div>
+        <div className="mb-10 mt-auto mx-auto">
+          <button
+            className="bg-MintGreen hover:opacity-60 rounded-3xl py-1 text-xl font-light px-6"
+            onClick={mostrarModalCrearHandle}
+          >
+            Crear Lista
+          </button>
+          <CrearListaFormulario
+            user_id={user_id}
+            modalCrearLista={modalCrearLista}
+            setModalCrearLista={setModalCrearLista}
+          />
+        </div>
+      </section>
+
+      <section id="box-tareas" className="md:col-span-2">
+        <h1 className="text-3xl mb-3 font-bold">Hola, {usuario.name}</h1>
+        {openVentanaTareas === true ? (
+          <VentanaTareas
+            tareas={tareas}
+            usuario={usuario}
+            idLista={idLista}
+            cargarTareas={cargarTareas}
+            openVentanaTareas={openVentanaTareas}
+            setOpenVentanaTareas={setOpenVentanaTareas}
+            listaTitulo={listaTitulo}
+          ></VentanaTareas>
+        ) : (
+          <div className="bg-MidnightBlue p-8 rounded-3xl font-light col-span-1">
+            <h1 className="text-2xl text-white mb-6">
+              Esta es tu App de tareas
+            </h1>
+            <h2 className="text-2xl text-white mb-2">
+              Antes de empezar... seleccione una lista.
+            </h2>
+            <h3 className="text-lg text-white mb-8">
+              Si no tienes ninguna lista, añade una lista en 'Crear lista'
+            </h3>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}      

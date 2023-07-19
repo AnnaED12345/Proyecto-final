@@ -10,8 +10,10 @@ import { useState } from 'react';
     - Variables definidas
     - Evento submitTarea 
       Condicional: Validación del input
-      Else:
-        - Petición fetch a la ruta `/${user_id}/list/${idLista}/tasks` con método POST para crear una tarea.
+          - Si el input está vacío se muestra un error en pantalla
+          - SetTimeOut para que el error no permanezca en pantalla. Este desaparecerá a los 2 segundos 
+        else:
+          - Petición fetch a la ruta `/${user_id}/list/${idLista}/tasks` con método POST para crear una tarea.
     
 - Return: 
     - Se renderiza un formulario para introducir la descripcion de la tarea    
@@ -26,69 +28,76 @@ import { useState } from 'react';
 
 
 export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitulo} ) {
-    const {user_id}=useParams();//String
-    const [tareaCreada, setTareaCreada] = useState(""); //String. Se actualizará con los datos recibidos del fetch
-    const [error, setError] = useState(""); //String. Se actualizará con el valor del error
+  const { user_id } = useParams(); //String
+  const [tareaCreada, setTareaCreada] = useState(""); //String. Se actualizará con los datos recibidos del fetch
+  const [error, setError] = useState(""); //String. Se actualizará con el valor del error
 
-    async function submitTarea (event) { 
-        if (tareaCreada === null || tareaCreada === "" || tareaCreada === " " || tareaCreada.length < 0){
-            event.preventDefault();
-            setError("Tienes que añadir una tarea");
-        } else {
-            event.preventDefault();
+  async function submitTarea(event) {
+    if (
+      tareaCreada === null ||
+      tareaCreada === "" ||
+      tareaCreada === " " ||
+      tareaCreada.length < 0
+    ) {
+      event.preventDefault();
+      setError("Tienes que añadir una tarea");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    } else {
+      event.preventDefault();
 
-            const post = await fetch(`/${user_id}/list/${idLista}/tasks`, { 
-                method: "POST",
-                body: JSON.stringify({ descripcion: tareaCreada }), 
-                headers: {
-                  "Content-Type": "application/json",
-                }})
-    
-                if (post.ok) { 
-                    setTareaCreada("");
-                    cargarTareas(idLista);
-                                        
-                  } else {     
-                        const error = await post.text(); 
-                        setError(error);
-                  }
-            }
-    };
+      const post = await fetch(`/${user_id}/list/${idLista}/tasks`, {
+        method: "POST",
+        body: JSON.stringify({ descripcion: tareaCreada }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      if (post.ok) {
+        setTareaCreada("");
+        cargarTareas(idLista);
+      } else {
+        const error = await post.text();
+        setError(error);
+      }
+    }
+  }
 
-return (
-  <div className="grid grid-cols-3">
-    <form className="flex flex-col col-span-2" onSubmit={submitTarea}>
-      <p className="my-2 text-lg font-light">Estás en {listaTitulo}:</p>
+  return (
+    <div className="grid grid-cols-3">
+      <form className="flex flex-col col-span-2" onSubmit={submitTarea}>
+        <p className="my-2 text-lg font-light">Estás en {listaTitulo}:</p>
 
-      <label className="text-2xl mb-3 " htmlFor="tarea">
-        Añade una nueva tarea:
-      </label>
+        <label className="text-2xl mb-3 " htmlFor="tarea">
+          Añade una nueva tarea:
+        </label>
 
-      <div className="relative pb-8">
-        <input
-          className="border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-lg md:text-xl sm:text-base block w-full"
-          type="text"
-          placeholder="Agregar tarea..."
-          name="tareaID"
-          id="tareaID"
-          value={tareaCreada}
-          required
-          onChange={(event) => setTareaCreada(event.target.value)}
-        />
-        <FontAwesomeIcon
-          className="absolute right-6 top-6 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
-          icon={faPlus}
-          size="lg"
-          onClick={submitTarea}
-        />
-      </div>
-      {error && (
-        <p id="errores" className="text-red-600 text-lg">
-          {error}
-        </p>
-      )}
-    </form>
-  </div>
-); 
+        <div className="relative pb-8">
+          <input
+            className="border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-lg md:text-xl sm:text-base block w-full"
+            type="text"
+            placeholder="Agregar tarea..."
+            name="tareaID"
+            id="tareaID"
+            value={tareaCreada}
+            required
+            onChange={(event) => setTareaCreada(event.target.value)}
+          />
+          <FontAwesomeIcon
+            className="absolute right-6 top-6 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
+            icon={faPlus}
+            size="lg"
+            onClick={submitTarea}
+          />
+        </div>
+        {error && (
+          <p id="errores" className="text-red-600 text-lg">
+            {error}
+          </p>
+        )}
+      </form>
+    </div>
+  );
 }

@@ -18,91 +18,89 @@ import { useState } from "react";
 
 
 export default function SeleccionaUsuario () {
+  const [email, setEmail] = useState(""); //string
+  const [password, setPassword] = useState(""); //string
+  const [error, setError] = useState(""); //string
 
-    const [email, setEmail] = useState(""); //string
-    const [password, setPassword] = useState(""); //string
-    const [error, setError] = useState(""); //string
-    
-    async function submitLogin (event) { 
-        event.preventDefault(); //evita la recarga de la página
+  async function submitLogin(event) {
+    event.preventDefault(); //evita la recarga de la página
 
-        const response = await fetch(`/login`, { 
-            method: "POST",
-            body: JSON.stringify(
-                { username: email,
-                  password : password}), 
-            headers: {
-              "Content-Type": "application/json",
-            }
-        })
-    
-    if (response.ok) { //si la respuesta es Ok: 
-        const contentType = response.headers.get("content-type"); 
-        if (contentType && contentType.includes("application/json")) { //si contiene content-type:
-          const user = await response.json();
-          window.location.href = `/app_tareas/${user.id}`; //se redirige al usuario a su app de tareas mediante el id
-        } else { 
-          setError("La respuesta no contiene datos JSON"); 
-        }
+    const response = await fetch(`/login`, {
+      method: "POST",
+      body: JSON.stringify({ username: email, password: password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      //si la respuesta es Ok:
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        //si contiene content-type:
+        const user = await response.json();
+        window.location.href = `/app_tareas/${user.id}`; //se redirige al usuario a su app de tareas mediante el id
       } else {
-        setError("Usuario o contraseña incorrectos.");
+        setError("La respuesta no contiene datos JSON");
       }
+    } else {
+      setError("Usuario o contraseña incorrectos.");
+    }
+  }
 
-}
+  return (
+    <main className="bg-Gainsboro h-screen flex items-center justify-center ">
+      <section className="bg-white py-12 sm:py-16 px-16 sm:px-20 md:px-26 rounded-3xl">
+        <h1 className="text-center text-4xl sm:text-5xl font-bold pb-3">
+          Bienvenid@
+        </h1>
+        <h2 className="text-center text-xl sm:text-2xl font-light pb-10">
+          ¡Empieza ya insertando tus datos!
+        </h2>
+        <form onSubmit={submitLogin}>
+          <div>
+            <label
+              className="block mb-4 text-lg sm:text-xl font-light"
+              htmlFor="username"
+            >
+              Email:
+            </label>
+            <input
+              className="bg-Gainsboro rounded-3xl font-light block w-full p-2 px-8 mb-4"
+              type="text"
+              name="username"
+              placeholder="email@gmail.com"
+              required
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
 
-    return (
-      <main className="bg-Gainsboro h-screen flex items-center justify-center ">
-        <section className="bg-white py-12 sm:py-16 px-16 sm:px-20 md:px-26 rounded-3xl">
-          <h1 className="text-center text-4xl sm:text-5xl font-bold pb-3">
-            Bienvenid@
-          </h1>
-          <h2 className="text-center text-xl sm:text-2xl font-light pb-10">
-            ¡Empieza ya insertando tus datos!
-          </h2>
-          <form onSubmit={submitLogin}>
-            <div>
-              <label
-                className="block mb-4 text-lg sm:text-xl font-light"
-                htmlFor="username"
-              >
-                Email:
-              </label>
-              <input
-                className="bg-Gainsboro rounded-3xl font-light block w-full p-2 px-8 mb-4"
-                type="text"
-                name="username"
-                placeholder="email@gmail.com"
-                required
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </div>
+          <section>
+            <label
+              className="block mb-4 text-lg sm:text-xl font-light text-MidnightBlue"
+              htmlFor="password"
+            >
+              Contraseña:
+            </label>
+            <input
+              className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light block w-full p-2 px-8 mb-4"
+              type="password"
+              name="password"
+              placeholder="contraseña"
+              required=""
+              onChange={(event) => setPassword(event.target.value)}
+            />
 
-            <section>
-              <label
-                className="block mb-4 text-lg sm:text-xl font-light text-MidnightBlue"
-                htmlFor="password"
-              >
-                Contraseña:
-              </label>
-              <input
-                className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light block w-full p-2 px-8 mb-4"
-                type="password"
-                name="password"
-                placeholder="contraseña"
-                required=""
-                onChange={(event) => setPassword(event.target.value)}
-              />
+            <p className="text-red-600 text-md mt-4">{error}</p>
+          </section>
 
-              <p className="text-red-600 text-md mt-4">{error}</p>
-            </section>
-
-            <div>
-              <button className="w-full text-MidnightBlue bg-MintGreen hover:saturate-50 font-bold rounded-3xl text-sm md:text-lg px-5 py-2.5 my-7 text-center">
-                Acceder
-              </button>
-            </div>
-          </form>
-        </section>
-      </main>
-    );
+          <div>
+            <button className="w-full text-MidnightBlue bg-MintGreen hover:saturate-50 font-bold rounded-3xl text-sm md:text-lg px-5 py-2.5 my-7 text-center">
+              Acceder
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+  );
 }

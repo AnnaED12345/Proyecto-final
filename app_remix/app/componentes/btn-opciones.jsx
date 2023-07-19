@@ -26,63 +26,62 @@ import DialogoBorrarLista from "./dialogoBorrar-Lista";
 
 
 export default function BotonOpciones ({usuario, listaId, btnOpciones}) {
-   
-    const opciones = ["Editar", "Borrar"] //Array. Opciones del btnOpciones
-    const[modalBorrarLista, setModalBorrarLista]= useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una lista.
-    const[modalEditarLista, setModalEditarLista]= useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una lista.
+  const opciones = ["Editar", "Borrar"]; //Array. Opciones del btnOpciones
+  const [modalBorrarLista, setModalBorrarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una lista.
+  const [modalEditarLista, setModalEditarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una lista.
 
-    async function cargarListas () { // Creamos una función que cargué las listas para posteriormente recargar las listas cada vez que borramos o editamos una lista.
-        const respuesta = await fetch (`/users/${usuario.id}/list`); 
-        const datos = await respuesta.json(); 
-        setListas(datos.listas); 
-    }
+  async function cargarListas() {
+    // Creamos una función que cargué las listas para posteriormente recargar las listas cada vez que borramos o editamos una lista.
+    const respuesta = await fetch(`/users/${usuario.id}/list`);
+    const datos = await respuesta.json();
+    setListas(datos.listas);
+  }
 
-    const mostrarModalBorrarListaHandle = () => {
-      setModalBorrarLista(true);
-    };
+  const mostrarModalBorrarListaHandle = () => {
+    setModalBorrarLista(true);
+  };
 
-    const mostrarModalEditarListaHandle = () => {
-        setModalEditarLista(true);
-    }
+  const mostrarModalEditarListaHandle = () => {
+    setModalEditarLista(true);
+  };
 
+  return (
+    <div className="flex justify-center">
+      {btnOpciones && (
+        <ul className="flex">
+          {opciones.map((opcion) => (
+            <button
+              className="text-MidnightBlue opacity-70 hover:opacity-100 px-4 pt-3"
+              id="opciones"
+              key={opcion}
+              onClick={() => {
+                if (opcion === "Borrar") {
+                  mostrarModalBorrarListaHandle(listaId);
+                } else if (opcion === "Editar") {
+                  mostrarModalEditarListaHandle(listaId);
+                }
+              }}
+            >
+              {opcion}
+            </button>
+          ))}
+        </ul>
+      )}
 
-    return (
-      <div className="flex justify-center">
-        {btnOpciones && (
-          <ul className="flex">
-            {opciones.map((opcion) => (
-              <button
-                className="text-MidnightBlue opacity-70 hover:opacity-100 px-4 pt-3"
-                id="opciones"
-                key={opcion}
-                onClick={() => {
-                  if (opcion === "Borrar") {
-                    mostrarModalBorrarListaHandle(listaId);
-                  } else if (opcion === "Editar") {
-                    mostrarModalEditarListaHandle(listaId);
-                  }
-                }}
-              >
-                {opcion}
-              </button>
-            ))}
-          </ul>
-        )}
-
-        <DialogoBorrarLista
-          usuarioId={usuario.id}
-          idList={listaId}
-          cargarListas={cargarListas}
-          modalBorrarLista={modalBorrarLista}
-          setModalBorrarLista={setModalBorrarLista}
-        ></DialogoBorrarLista>
-        <DialogoEditarLista
-          usuarioId={usuario.id}
-          idList={listaId}
-          cargarListas={cargarListas}
-          modalEditarLista={modalEditarLista}
-          setModalEditarLista={setModalEditarLista}
-        ></DialogoEditarLista>
-      </div>
-    );
+      <DialogoBorrarLista
+        usuarioId={usuario.id}
+        idList={listaId}
+        cargarListas={cargarListas}
+        modalBorrarLista={modalBorrarLista}
+        setModalBorrarLista={setModalBorrarLista}
+      ></DialogoBorrarLista>
+      <DialogoEditarLista
+        usuarioId={usuario.id}
+        idList={listaId}
+        cargarListas={cargarListas}
+        modalEditarLista={modalEditarLista}
+        setModalEditarLista={setModalEditarLista}
+      ></DialogoEditarLista>
+    </div>
+  );
 }

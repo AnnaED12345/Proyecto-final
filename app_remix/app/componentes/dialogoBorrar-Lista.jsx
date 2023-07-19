@@ -26,19 +26,22 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 export default function DialogoBorrarLista ({usuarioId, idList, cargarListas, modalBorrarLista, setModalBorrarLista }) {
 
-    const options = {
-        method: 'DELETE',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-    };
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-    async function borrarLista (event) { 
-        const respuesta = await fetch (`/users/${usuarioId}/list/${idList}`, options); 
-        const datos = await respuesta.json(); 
-        cargarListas(idList);
-        location.reload();
-    };
+  async function borrarLista(event) {
+    const respuesta = await fetch(
+      `/users/${usuarioId}/list/${idList}`,
+      options
+    );
+    const datos = await respuesta.json();
+    cargarListas(idList);
+    location.reload();
+  };
     
     const onBorrarListaHandle = (() => { //Acepta la eliminación de la lista y cierra la ventana modal
         borrarLista();        

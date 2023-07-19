@@ -33,81 +33,80 @@ import DialogoBorrarTarea from './dialogoBorrar-Tarea';
 
 
 export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, openVentanaTareas, listaTitulo}) {
+  const [modalBorrarTarea, setModalBorrarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una tarea. .
+  const [modalEditarTarea, setModalEditarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una tarea.
+  const [tareaId, setTareaId] = useState(); //String
 
-    const [modalBorrarTarea, setModalBorrarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una tarea. .
-    const [modalEditarTarea, setModalEditarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una tarea. 
-    const [tareaId, setTareaId] = useState() //String
+  const mostrarModalEditarTareaHandle = (idTarea) => {
+    setTareaId(idTarea);
+    setModalEditarTarea(true);
+  };
 
-     const mostrarModalEditarTareaHandle = (idTarea) => {
-        setTareaId(idTarea);
-        setModalEditarTarea(true);
-    }
+  const mostrarModalBorrarTareaHandle = (idTarea) => {
+    setTareaId(idTarea);
+    setModalBorrarTarea(true);
+  };
 
-   const mostrarModalBorrarTareaHandle = (idTarea) => {
-       setTareaId(idTarea);
-       setModalBorrarTarea(true);
-   }
+  return (
+    <div>
+      {openVentanaTareas && (
+        <div>
+          <CrearTareaFormulario
+            idLista={idLista}
+            cargarTareas={cargarTareas}
+            listaTitulo={listaTitulo}
+          ></CrearTareaFormulario>
+          <div className="h-96 md:h-64 mt-4 overflow-y-auto overflow-y-auto">
+            {tareas !== undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
+              tareas.map((tarea) => (
+                <li
+                  className="bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-3 p-2 px-10 flex justify-between"
+                  key={tarea.id}
+                >
+                  {tarea.descripcion}
 
-return (
-  <div>
-    {openVentanaTareas && (
-      <div>
-        <CrearTareaFormulario
-          idLista={idLista}
-          cargarTareas={cargarTareas}
-          listaTitulo={listaTitulo}
-        ></CrearTareaFormulario>
-        <div className="h-80 overflow-y-auto mt-2 overflow-y-auto">
-          {tareas !== undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
-            tareas.map((tarea) => (
-              <li
-                className="bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-4 p-3 px-10 flex justify-between"
-                key={tarea.id}
-              >
-                {tarea.descripcion}
+                  <div>
+                    <button
+                      className="px-10"
+                      onClick={() => mostrarModalEditarTareaHandle(tarea.id)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
+                    </button>
 
-                <div>
-                  <button
-                    className="px-10"
-                    onClick={() => mostrarModalEditarTareaHandle(tarea.id)}
-                  >
-                    <FontAwesomeIcon icon={faPen} />
-                  </button>
+                    <button
+                      className="btnBorrar"
+                      onClick={() => mostrarModalBorrarTareaHandle(tarea.id)}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <div>
+                <p className="text-xl font-light">No tienes ninguna tarea</p>
+              </div>
+            )}
+          </div>
 
-                  <button
-                    className="btnBorrar"
-                    onClick={() => mostrarModalBorrarTareaHandle(tarea.id)}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
-                </div>
-              </li>
-            ))
-          ) : (
-            <div>
-              <p className="text-xl font-light">No tienes ninguna tarea</p>
-            </div>
-          )}
+          <DialogoEditarTarea
+            tareaId={tareaId}
+            usuarioId={usuario.id}
+            idLista={idLista}
+            cargarTareas={cargarTareas}
+            modalEditarTarea={modalEditarTarea}
+            setModalEditarTarea={setModalEditarTarea}
+          />
+          <DialogoBorrarTarea
+            modalBorrarTarea={modalBorrarTarea}
+            setModalBorrarTarea={setModalBorrarTarea}
+            tareaId={tareaId}
+            usuarioId={usuario.id}
+            idLista={idLista}
+            cargarTareas={cargarTareas}
+          />
         </div>
-
-        <DialogoEditarTarea
-          tareaId={tareaId}
-          usuarioId={usuario.id}
-          idLista={idLista}
-          cargarTareas={cargarTareas}
-          modalEditarTarea={modalEditarTarea}
-          setModalEditarTarea={setModalEditarTarea}
-        />
-        <DialogoBorrarTarea
-          modalBorrarTarea={modalBorrarTarea}
-          setModalBorrarTarea={setModalBorrarTarea}
-          tareaId={tareaId}
-          usuarioId={usuario.id}
-          idLista={idLista}
-          cargarTareas={cargarTareas}
-        />
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
 }

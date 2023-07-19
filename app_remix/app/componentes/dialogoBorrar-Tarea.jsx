@@ -25,21 +25,23 @@ import {faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 export default function DialogoBorrarTarea({ tareaId, usuarioId, idLista, cargarTareas, modalBorrarTarea, setModalBorrarTarea}) {
 
-  const confirmarBorrarTarea = (() => {
-      const options = {
-          method: 'DELETE'
-      }
+  const confirmarBorrarTarea = () => {
+    const options = {
+      method: "DELETE",
+    };
 
-      const borrar = fetch (`/${usuarioId}/list/${idLista}/tasks/${tareaId}`, options)
-      .then((res) => {  
-        if (res.ok) { 
-          cargarTareas(idLista);
-          setModalBorrarTarea(false);
-        } else {
-            console.log ("No existe esta tarea");
-        }
-  })
-  });
+    const borrar = fetch(
+      `/${usuarioId}/list/${idLista}/tasks/${tareaId}`,
+      options
+    ).then((res) => {
+      if (res.ok) {
+        cargarTareas(idLista);
+        setModalBorrarTarea(false);
+      } else {
+        console.log("No existe esta tarea");
+      }
+    });
+  };
 
   const onCancelarBorrarTareaHandle = () => {
     tareaId = {};
