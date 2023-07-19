@@ -120,6 +120,11 @@ passport.use(
 
 //---------------------------- RUTAS LOGIN Y LOGOUT ----------------------------
 
+app.get("/test", (req, res) => {
+  res.status(200).json({"msg":"backend Funciona!"});
+  });
+
+
 //LOGIN
 app.post("/login", passport.authenticate("local"), (req, res) => {
     const user = req.user;
