@@ -35,8 +35,6 @@ ESTRUCTURA DEL DOCUMENTO:
 crearUsuarios("Mario", "mario@gmail.com", "111");
 crearUsuarios("Lucas", "lucas@gmail.com", "222");
 crearUsuarios("Eva", "eva@gmail.com", "333");
-/* crearUsuarios("Prueba", "prueba@gmail.com", "000"); */
-
 
 
  
