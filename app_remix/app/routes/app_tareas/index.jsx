@@ -50,7 +50,7 @@ export default function SeleccionaUsuario () {
 
   return (
     <main className="bg-Gainsboro h-screen flex items-center justify-center ">
-      <section className="bg-white py-12 sm:py-16 px-6 sm:px-20 md:px-26 rounded-3xl">
+      <div className="bg-white py-12 sm:py-16 px-6 sm:px-20 md:px-26 rounded-3xl">
         <h1 className="text-center text-4xl sm:text-5xl font-bold pb-3">
           Bienvenid@
         </h1>
@@ -75,7 +75,7 @@ export default function SeleccionaUsuario () {
             />
           </div>
 
-          <section>
+          <div>
             <label
               className="block mb-4 text-lg sm:text-xl font-light text-MidnightBlue"
               htmlFor="password"
@@ -92,7 +92,7 @@ export default function SeleccionaUsuario () {
             />
 
             <p className="text-red-600 text-md mt-4">{error}</p>
-          </section>
+          </div>
 
           <div>
             <button className="w-full text-MidnightBlue bg-MintGreen hover:saturate-50 font-bold rounded-3xl text-sm md:text-lg px-5 py-2.5 my-7 text-center">
@@ -100,7 +100,7 @@ export default function SeleccionaUsuario () {
             </button>
           </div>
         </form>
-      </section>
+      </div>
     </main>
   );
 }
