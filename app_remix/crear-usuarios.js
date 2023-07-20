@@ -31,6 +31,7 @@ async function crearUsuarios(nombre, email, password) {
     });
 }
 
-crearUsuarios("Mario", "mario@gmail.com", "111");
+/* crearUsuarios("Mario", "mario@gmail.com", "111");
 crearUsuarios("Lucas", "lucas@gmail.com", "222");
-crearUsuarios("Eva", "eva@gmail.com", "333");
+crearUsuarios("Eva", "eva@gmail.com", "333"); */
+crearUsuarios("prueba", "prueba@gmail.com", "000");
