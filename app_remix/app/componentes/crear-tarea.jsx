@@ -66,17 +66,17 @@ export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitul
   }
 
   return (
-    <div className="grid grid-cols-3">
-      <form className="flex flex-col col-span-2" onSubmit={submitTarea}>
-        <p className="my-2 text-lg font-light">Estás en {listaTitulo}:</p>
+    <div className="grid grid-cols-3 mx-4">
+      <form className="flex flex-col col-span-3 lg:col-span-2" onSubmit={submitTarea}>
+        <p className="my-2 text-xl font-light">Estás en "{listaTitulo}":</p>
 
-        <label className="text-2xl mb-3 " htmlFor="tarea">
+        <label className="text-2xl mb-2 " htmlFor="tarea">
           Añade una nueva tarea:
         </label>
 
-        <div className="relative pb-8">
+        <div className="relative pb-6">
           <input
-            className="border border-SlateGrat shadow-xl rounded-md pl-10 pr-3 py-2 font-light text-lg md:text-xl sm:text-base block w-full"
+            className="border border-SlateGrat shadow-xl rounded-md pl-10 py-2 font-light text-lg sm:text-xl block w-full"
             type="text"
             placeholder="Agregar tarea..."
             name="tareaID"
@@ -93,7 +93,7 @@ export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitul
           />
         </div>
         {error && (
-          <p id="errores" className="text-red-600 text-lg">
+          <p id="errores" className="text-red-600 text-lg mb-2">
             {error}
           </p>
         )}

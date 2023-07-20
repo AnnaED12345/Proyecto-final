@@ -77,10 +77,10 @@ export default function GetListas ({usuario, listas}) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-20 mt-8 ">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-20 mt-4 ">
       <section
         id="box-listas"
-        className="flex flex-col bg-Gainsboro col-span-1 md:col-span-1 rounded-3xl px-3 py-2"
+        className="flex flex-col bg-Gainsboro col-span-1 md:col-span-1 rounded-3xl py-2"
       >
         <div className="h-64 lg:h-80 overflow-y-auto m-5 mb-10 rounded-xl overflow-x-hidden">
           {listas.length > 0 ? (
@@ -136,7 +136,7 @@ export default function GetListas ({usuario, listas}) {
       </section>
 
       <section id="box-tareas" className="md:col-span-2">
-        <h1 className="text-3xl mb-3 font-bold">Hola, {usuario.name}</h1>
+        <h1 className="text-3xl mb-3 ml-4 font-bold">Hola, {usuario.name}</h1>
         {openVentanaTareas === true ? (
           <VentanaTareas
             tareas={tareas}

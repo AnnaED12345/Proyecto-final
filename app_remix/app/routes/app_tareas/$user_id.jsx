@@ -59,7 +59,7 @@ export default function AppTareas () {
   return (
     <main className="my-6 md:overflow-y-hidden">
       {usuario ? (
-        <section className="mx-10">
+        <section className="mx-4 md:mx-10">
           <header className="bg-white flex justify-between">
             <h1 className="self-center ml-5 text-3xl font-bold">Tus listas</h1>
             <button

@@ -56,11 +56,11 @@ export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, 
             cargarTareas={cargarTareas}
             listaTitulo={listaTitulo}
           ></CrearTareaFormulario>
-          <div className="h-96 md:h-64 mt-4 overflow-y-auto overflow-y-auto">
+          <div className="h-96 md:h-64 mx-4 overflow-y-auto overflow-y-auto">
             {tareas !== undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
               tareas.map((tarea) => (
                 <li
-                  className="bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-3 p-2 px-10 flex justify-between"
+                  className="bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-3 p-2 px-8 flex justify-between"
                   key={tarea.id}
                 >
                   {tarea.descripcion}
