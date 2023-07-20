@@ -86,7 +86,7 @@ export default function GetListas ({usuario, listas}) {
           {listas.length > 0 ? (
             listas.map((lista) => (
               <ul className="my-4 text-lg text-white" key={lista.id}>
-                <button
+                <li
                   className="bg-SlateGray hover:bg-MidnightBlue px-6 rounded-3xl flex items-center justify-between w-full"
                   key={lista.id}
                   onClick={() => onAbrirListaHandle(lista.id, lista.titulo)}
@@ -101,7 +101,7 @@ export default function GetListas ({usuario, listas}) {
                       icon={faEllipsisVertical}
                     />
                   </button>
-                </button>
+                </li>
                 {listaSeleccionada === lista.id && (
                   <BotonOpciones
                     usuario={usuario}
@@ -136,7 +136,7 @@ export default function GetListas ({usuario, listas}) {
       </section>
 
       <section id="box-tareas" className="md:col-span-2">
-        <h1 className="text-3xl mb-3 ml-4 font-bold">Hola, {usuario.name}</h1>
+        <h2 className="text-3xl mb-3 ml-4 font-bold">Hola, {usuario.name}</h2>
         {openVentanaTareas === true ? (
           <VentanaTareas
             tareas={tareas}
@@ -149,15 +149,15 @@ export default function GetListas ({usuario, listas}) {
           ></VentanaTareas>
         ) : (
           <div className="bg-MidnightBlue p-8 rounded-3xl font-light col-span-1">
-            <h1 className="text-2xl text-white mb-6">
+            <h2 className="text-2xl text-white mb-6">
               Esta es tu App de tareas
-            </h1>
-            <h2 className="text-2xl text-white mb-2">
-              Antes de empezar... seleccione una lista.
             </h2>
-            <h3 className="text-lg text-white mb-8">
-              Si no tienes ninguna lista, añade una lista en 'Crear lista'
+            <h3 className="text-2xl text-white mb-2">
+              Antes de empezar... seleccione una lista.
             </h3>
+            <h4 className="text-lg text-white mb-8">
+              Si no tienes ninguna lista, añade una lista en 'Crear lista'
+            </h4>
           </div>
         )}
       </section>

@@ -67,7 +67,10 @@ export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitul
 
   return (
     <div className="grid grid-cols-3 mx-4">
-      <form className="flex flex-col col-span-3 lg:col-span-2" onSubmit={submitTarea}>
+      <form
+        className="flex flex-col col-span-3 lg:col-span-2"
+        onSubmit={submitTarea}
+      >
         <p className="my-2 text-xl font-light">Estás en "{listaTitulo}":</p>
 
         <label className="text-2xl mb-2 " htmlFor="tarea">
@@ -85,12 +88,12 @@ export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitul
             required
             onChange={(event) => setTareaCreada(event.target.value)}
           />
-          <FontAwesomeIcon
+          <button
             className="absolute right-6 top-6 transform -translate-y-1/2 text-SlateGray hover:text-MidnightBlue "
-            icon={faPlus}
-            size="lg"
             onClick={submitTarea}
-          />
+          >
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          </button>
         </div>
         {error && (
           <p id="errores" className="text-red-600 text-lg mb-2">
