@@ -1,13 +1,11 @@
 import { useState } from "react";
 
-
 /* Pestaña Login: 
   ESTRUCTURA
 - Componente SeleccionaUsuario:
     - Variables definidas
     - Función submitLogin:
-        - Petición fetch a la ruta /login con método POST
-        - Si la respuesta es Ok se redirige el usuario a la pestaña $user_id
+        - Petición fetch a la ruta /login con método POST para iniciar sesión
 - Return: 
     - Renderiza la pestaña de login con un formulario para que el usuario pueda introducir los datos. 
 
@@ -16,20 +14,19 @@ import { useState } from "react";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function SeleccionaUsuario () {
-  const [email, setEmail] = useState(""); //string
-  const [password, setPassword] = useState(""); //string
-  const [error, setError] = useState(""); //string
+export default function SeleccionaUsuario() {
+  const [email, setEmail] = useState(""); //String
+  const [password, setPassword] = useState(""); //String
+  const [error, setError] = useState(""); //String. Se actualizará con el valor del error.
 
   async function submitLogin(event) {
     event.preventDefault(); //evita la recarga de la página
 
     const response = await fetch(`/login`, {
       method: "POST",
-      body: JSON.stringify({ username: email, password: password }),
+      body: JSON.stringify({ username: email, password: password }), //información que recibimos en el body
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", //definimos el formato de los datos
       },
     });
 

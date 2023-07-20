@@ -30,8 +30,8 @@ import { useState } from "react";
 export default function CrearListaFormulario ({user_id, modalCrearLista, setModalCrearLista}) {
   const [listaCreada, setListaCreada] = useState(""); //String
 
+  //Cancela la creación de la lista y cierra la ventana modal. Aplicado al boton Cancelar
   const onCancelarListaHandle = (event) => {
-    //Cancela la creación de la lista y cierra la ventana modal
     event.preventDefault();
     setModalCrearLista(false);
     setListaCreada(""); //se actualiza el valor tras cerrar el dialogo para vaciar el input

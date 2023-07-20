@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faTrashCan, faPen  } from '@fortawesome/free-solid-svg-icons';
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import CrearTareaFormulario from "./crear-tarea";
-import DialogoEditarTarea from './dialogoEditar-Tarea';
-import DialogoBorrarTarea from './dialogoBorrar-Tarea';
-
+import DialogoEditarTarea from "./dialogoEditar-Tarea";
+import DialogoBorrarTarea from "./dialogoBorrar-Tarea";
 
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
@@ -31,17 +30,25 @@ import DialogoBorrarTarea from './dialogoBorrar-Tarea';
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
+export default function VentanaTareas({
+  tareas,
+  usuario,
+  idLista,
+  cargarTareas,
+  openVentanaTareas,
+  listaTitulo,
+}) {
+  const [modalBorrarTarea, setModalBorrarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una tarea
+  const [modalEditarTarea, setModalEditarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una tarea
+  const [tareaId, setTareaId] = useState(); //String. Se actualiza con el id de la tarea
 
-export default function VentanaTareas ({tareas, usuario, idLista, cargarTareas, openVentanaTareas, listaTitulo}) {
-  const [modalBorrarTarea, setModalBorrarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una tarea. .
-  const [modalEditarTarea, setModalEditarTarea] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una tarea.
-  const [tareaId, setTareaId] = useState(); //String
-
+  //en este evento visualizamos la ventana modal que permite editar la tarea. Aplicado al botón con el icono {faPen}
   const mostrarModalEditarTareaHandle = (idTarea) => {
     setTareaId(idTarea);
     setModalEditarTarea(true);
   };
 
+  //en este evento visualizamos la ventana modal que permite borrar la tarea. Aplicado al botón con el icono {faTrashCan}
   const mostrarModalBorrarTareaHandle = (idTarea) => {
     setTareaId(idTarea);
     setModalBorrarTarea(true);

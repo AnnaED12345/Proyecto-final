@@ -43,12 +43,13 @@ export default function DialogoBorrarLista ({usuarioId, idList, cargarListas, mo
     location.reload();
   };
     
+    //Acepta la eliminación de la lista y cierra la ventana modal. Aplicado al botón aceptar
     const onBorrarListaHandle = () => {
-      //Acepta la eliminación de la lista y cierra la ventana modal
       borrarLista();
     };
 
-    const onCancelarBorrarLista = () => { //Cancela la eliminación de la lista y cierra la ventana modal
+    //Cancela la eliminación de la lista y cierra la ventana modal. Aplicado al botón cancelar
+    const onCancelarBorrarLista = () => { 
       setModalBorrarLista(false);
       idList = {};
     };

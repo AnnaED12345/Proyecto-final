@@ -1,11 +1,10 @@
 import { useParams } from "@remix-run/react";
 import { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import BotonOpciones from "./btn-opciones";
 import VentanaTareas from "./ventana-tareas";
 import CrearListaFormulario from "./dialogoCrear-Lista";
-
 
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA:
@@ -40,16 +39,15 @@ import CrearListaFormulario from "./dialogoCrear-Lista";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
 */
 
-
-export default function GetListas ({usuario, listas}) {
+export default function GetListas({ usuario, listas }) {
   const [listaSeleccionada, setListaSeleccionada] = useState(false); //Boolean. Estado para abrir el menu de opciones de cada lista.
   const [openVentanaTareas, setOpenVentanaTareas] = useState(false); //Boolean. Estado para abrir el componente VentanaTareas.
   const [modalCrearLista, setModalCrearLista] = useState(false); //Boolean. Estado para abrir la ventana modal para crear una lista.
   const [btnOpciones, setBtnOpciones] = useState(true); //Boolean. Estado para el boton de opciones.
   const [listaTitulo, setlistaTitulo] = useState(); //almacena el titulo de la lista para ser utilizado posteriormente en VentanaTareas. Inicialmente es undefined y almacena un string al hacer click en una lista.
-  const { user_id } = useParams(); //String
+  const { user_id } = useParams(); //String. Recoge el id del usuario de los parametros de la ruta.
   const [tareas, setTareas] = useState([]); //Array. Contiene id, descripción y listaID de cada tarea
-  const [idLista, setIdLista] = useState(); //String
+  const [idLista, setIdLista] = useState(); //String. Se actualiza con el id de la lista
 
   async function cargarTareas(listId) {
     const respuesta = await fetch(`/${user_id}/list/${listId}/tasks`);
@@ -57,21 +55,21 @@ export default function GetListas ({usuario, listas}) {
     setTareas(datos.tareas);
   }
 
+  //Al hacer click en la lista se abre una ventana con sus respectivas tareas. Aplicado a cada lista.
   const onAbrirListaHandle = (listId, listaTitulo) => {
-    // Al hacer click en la lista se abre una ventana con sus respectivas tareas. Aplicado a cada lista.
     setOpenVentanaTareas(true);
     setIdLista(listId);
     cargarTareas(listId);
     setlistaTitulo(listaTitulo);
   };
 
+  //Muestra un dialogo que te permite crear una nueva lista. Aplicado al botón "Crear Lista"
   const mostrarModalCrearHandle = () => {
-    //Muestra un dialogo que te permite crear una nueva lista. Aplicado al botón "Crear Lista"
     setModalCrearLista(true);
   };
 
+  //Abre el botón de opciones que permite editar o borrar la lista. Aplicado al boton con el icono {faEllipsisVertical}
   const onBtnOpcionesHandle = () => {
-    //Abre el botón de opciones que permite editar o borrar la lista.
     setListaSeleccionada(idLista);
     setBtnOpciones(btnOpciones ? false : true);
   };
@@ -163,4 +161,4 @@ export default function GetListas ({usuario, listas}) {
       </section>
     </div>
   );
-}      
+}

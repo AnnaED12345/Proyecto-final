@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
 - Componente DialogoEditarLista:
@@ -25,18 +24,22 @@ import { useState } from "react";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function DialogoEditarLista({usuarioId, idList, cargarListas, modalEditarLista, setModalEditarLista}) {
+export default function DialogoEditarLista({
+  usuarioId,
+  idList,
+  cargarListas,
+  modalEditarLista,
+  setModalEditarLista,
+}) {
   const [error, setError] = useState(""); //String. Se actualiza con el valor del error
   const [listaActualizada, setListaActualizada] = useState(" "); //String. Almacena el valor del input.
 
   const onSubmitLista = (event) => {
     //Acepta la edición de la lista y cierra la ventana modal
     if (
-      listaActualizada === null ||
-      listaActualizada === "" ||
-      listaActualizada === " " ||
-      listaActualizada.length < 0
+      listaActualizada === null || //si la lista es null
+      listaActualizada === "" || //si la lista es empty
+      listaActualizada === " " //si la lista es un espacio vacio
     ) {
       event.preventDefault();
       setError("Tienes que añadir un título para la lista");
@@ -66,8 +69,8 @@ export default function DialogoEditarLista({usuarioId, idList, cargarListas, mod
     }
   };
 
+  //Cancela la edición de la lista y cierra la ventana modal. Aplicado al boton Cancelar
   const onCancelarEditarLista = () => {
-    //Cancela la edición de la lista y cierra la ventana modal
     setModalEditarLista(false);
   };
 

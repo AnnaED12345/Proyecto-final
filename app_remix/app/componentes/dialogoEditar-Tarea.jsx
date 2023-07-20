@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
 - Componente DialogoEditarTarea:
@@ -25,17 +24,22 @@ import { useState } from "react";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarTareas, modalEditarTarea, setModalEditarTarea}) {
+export default function DialogoEditarTarea({
+  tareaId,
+  usuarioId,
+  idLista,
+  cargarTareas,
+  modalEditarTarea,
+  setModalEditarTarea,
+}) {
   const [error, setError] = useState(""); //String. Se actualiza con el valor del error
   const [tareaActualizada, setTareaActualizada] = useState(" "); //String. Se actualiza con la tarea indicada en el input
 
   const onSubmitTarea = (event) => {
     if (
-      tareaActualizada === null ||
-      tareaActualizada === "" ||
-      tareaActualizada === " " ||
-      tareaActualizada.length < 0
+      tareaActualizada === null || //si la tarea es null
+      tareaActualizada === "" || //si la tarea es empty
+      tareaActualizada === " " //si la tarea es un espacio vacio
     ) {
       event.preventDefault();
       setError("Tienes que añadir una tarea");
@@ -71,6 +75,7 @@ export default function DialogoEditarTarea({tareaId, usuarioId, idLista, cargarT
     }
   };
 
+  //Cancela la edición de la tarea y cierra la ventana modal. Aplicado al boton Cancelar
   const onCancelarEditarTarea = (event) => {
     event.preventDefault();
     setModalEditarTarea(false);

@@ -1,8 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus} from '@fortawesome/free-solid-svg-icons';
-import { useParams } from '@remix-run/react';
-import { useState } from 'react';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "@remix-run/react";
+import { useState } from "react";
 
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
@@ -26,21 +25,24 @@ import { useState } from 'react';
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function CrearTareaFormulario ({idLista, cargarTareas, listaTitulo} ) {
+export default function CrearTareaFormulario({
+  idLista,
+  cargarTareas,
+  listaTitulo,
+}) {
   const { user_id } = useParams(); //String
   const [tareaCreada, setTareaCreada] = useState(""); //String. Se actualizará con los datos recibidos del fetch
   const [error, setError] = useState(""); //String. Se actualizará con el valor del error
 
   async function submitTarea(event) {
     if (
-      tareaCreada === null ||
-      tareaCreada === "" ||
-      tareaCreada === " " ||
-      tareaCreada.length < 0
+      tareaCreada === null || //si la tarea es null
+      tareaCreada === "" || //si la tarea es empty
+      tareaCreada === " " //si la tarea es un espacio vacio
     ) {
       event.preventDefault();
       setError("Tienes que añadir una tarea");
+
       setTimeout(() => {
         setError("");
       }, 2000);

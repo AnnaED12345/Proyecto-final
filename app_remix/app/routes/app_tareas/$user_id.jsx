@@ -1,18 +1,20 @@
 import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSpinner,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import GetListas from "../../componentes/get-listas";
-
 
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA:
 - Componente AppTareas:
     - Variables definidas
     - Función cargarUsuario
-        - Petición fetch a la ruta /users/${user_id}/list con método GET para cargar el usuario con sus respectivos datos
+        - Petición fetch a la ruta /users/${user_id}/list con método GET para cargar el usuario con sus listas
     - Función submitLogout
-        - Petición GET a la ruta (lougot para cerrar sesión
+        - Petición GET a la ruta /lougot para cerrar sesión
 - Render: 
     - Condicional: ¿Hay usuario?:
         - Header: 
@@ -27,30 +29,29 @@ import GetListas from "../../componentes/get-listas";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
 */
 
-
-export default function AppTareas () {
-  const { user_id } = useParams(); //String
-  const [usuario, setUsuario] = useState(); //String
-  const [listas, setListas] = useState(); //Array. Contiene id, titulo y usuarioId de la lista
+export default function AppTareas() {
+  const { user_id } = useParams(); //String. Recogemos el id del usuario de los parametros de la ruta
+  const [usuario, setUsuario] = useState(); //String. Se actualizará con el usuario una vez se complete la petición fetch
+  const [listas, setListas] = useState(); //Array. Contiene id, titulo y usuarioId de la lista. Se actualizará una vez se complete la petición fetch
 
   async function cargarUsuario() {
     const respuesta = await fetch(`/users/${user_id}/list`);
     const datos = await respuesta.json();
-    setUsuario(datos);
-    setListas(datos.listas);
+    setUsuario(datos); //actualizamos el valor de usuario
+    setListas(datos.listas); //actualizamos el valor de listas
   }
 
+  //Utilizamos useEffect para que la petición se realicé solo una vez
   useEffect(() => {
-    //lo utilizamos para que la petición se realicé solo una vez
     cargarUsuario();
   }, []);
 
   async function submitLogout(event) {
-    event.preventDefault();
+    event.preventDefault(); //evita la recarga de la pagina
 
     const response = await fetch(`/logout`);
     if (response.ok) {
-      window.location.href = "/app_tareas/"; //redirigimos de vuelta a la pantalla de login
+      window.location.href = "/app_tareas/"; //si la petición ha sido exitosa, redirigimos de vuelta a la pantalla de login
     } else {
       console.error("Error en el logout");
     }

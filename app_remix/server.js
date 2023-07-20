@@ -17,19 +17,18 @@ import * as fs from "node:fs";
 - Gestión de rutas para usuarios, listas y tareas
 */
 
-
 import { createRequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import chokidar from "chokidar";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 import bodyParser from "body-parser";
-import session from 'express-session';
-import passport from 'passport';
-import LocalStrategy from 'passport-local'; 
-import bcrypt from 'bcrypt';
+import session from "express-session";
+import passport from "passport";
+import LocalStrategy from "passport-local";
+import bcrypt from "bcrypt";
 import rutasApp from "./db/rutas-app.js";
 
 const prisma = new PrismaClient();
@@ -61,96 +60,92 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
-app.use(bodyParser.json()); 
-
+app.use(bodyParser.json());
 
 //---------------------------- GESTIÓN DE SESIONES ----------------------------
 
 //MIDDLEWARE EXPRESS-SESION
-app.use(session({
-    secret: 'secret-key',
+app.use(
+  session({
+    secret: "secret-key",
     resave: false,
-    saveUninitialized: false
-    }));
-
-
-//MIDDLEWARE PASSPORT 
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function(user, done) { //identificamos el usuario mediante el id: 
-done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-    prisma.usuario.findUnique({ //para buscar al usuario por su ID en la base de datos
-        where: {
-          id: id,
-        },
-      })
-      .then((user) => { 
-        console.log("passport.deserializeUser", user);
-        done(null, user); //pasamos los datos del usuario a través de la función done. null --> para indicar que no hay error 
-      })
-      //Si se produce un error durante la deserialización, se captura en el bloque catch y se pasa como argumento a done(error) para indicar que ocurrió un error.
-      .catch((error) => { 
-        done(error);
-      });
-});
-
-passport.use( 
-  new LocalStrategy(function (email, password, done) {
-  prisma.usuario
-    .findUnique(
-      { where: { email } }) //la autenticación se realizará con el email del usuario
-  
-    .then((user) => {
-      const valid = bcrypt.compare(password, user.password).then((valid) => {
-      if (!user || !valid) return done(true); //si no coincide el usuario o la contraseña no es válida: 
-      return done(null, user);
-    });
-  })
-  .catch((err) => {
-    done(err)});
+    saveUninitialized: false,
   })
 );
 
+//MIDDLEWARE PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
 
+passport.serializeUser(function (user, done) {
+  //identificamos el usuario mediante el id:
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  prisma.usuario
+    .findUnique({
+      //para buscar al usuario por su ID en la base de datos
+      where: {
+        id: id,
+      },
+    })
+    .then((user) => {
+      console.log("passport.deserializeUser", user);
+      done(null, user); //pasamos los datos del usuario a través de la función done. null --> para indicar que no hay error
+    })
+    //Si se produce un error durante la deserialización, se captura en el bloque catch y se pasa como argumento a done(error) para indicar que ocurrió un error.
+    .catch((error) => {
+      done(error);
+    });
+});
+
+passport.use(
+  new LocalStrategy(function (email, password, done) {
+    prisma.usuario
+      .findUnique({ where: { email } }) //la autenticación se realizará con el email del usuario
+
+      .then((user) => {
+        const valid = bcrypt.compare(password, user.password).then((valid) => {
+          if (!user || !valid) return done(true); //si no coincide el usuario o la contraseña no es válida:
+          return done(null, user);
+        });
+      })
+      .catch((err) => {
+        done(err);
+      });
+  })
+);
 
 //---------------------------- RUTAS LOGIN Y LOGOUT ----------------------------
 
 app.get("/test", (req, res) => {
-  res.status(200).json({"msg":"backend Funciona!"});
-  });
-
+  res.status(200).json({ msg: "backend Funciona!" });
+});
 
 //LOGIN
 app.post("/login", passport.authenticate("local"), (req, res) => {
-    const user = req.user;
-    res.status(200).send(user);
-    });
-
+  const user = req.user;
+  res.status(200).send(user);
+});
 
 //LOGOUT
 app.get("/logout", function (req, res) {
-    console.log(req.session);
-    req.session.destroy((err) => {//destroy() eliminará todos los datos de la sesión y finalizará la sesión del usuario.
-      if (err) { //send 400.
-        res.status(400).send();
-      } else { 
-        res.send("Not login"); //verificamos si el cierre de sesión es correcto 
-      }
-    })
-    });
-
-
+  console.log(req.session);
+  req.session.destroy((err) => {
+    //destroy() eliminará todos los datos de la sesión y finalizará la sesión del usuario.
+    if (err) {
+      //send 400.
+      res.status(400).send();
+    } else {
+      res.send("Not login"); //verificamos si el cierre de sesión es correcto
+    }
+  });
+});
 
 //---------------------------- AUTENTICACIÓN EN RUTAS ----------------------------
 
 rutasApp(app); //archivo dónde se gestionan las rutas del servidor
-
-
 
 app.all(
   "*",

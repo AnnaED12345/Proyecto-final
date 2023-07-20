@@ -2,7 +2,6 @@ import { useState } from "react";
 import DialogoEditarLista from "./dialogoEditar-Lista";
 import DialogoBorrarLista from "./dialogoBorrar-Lista";
 
-
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
 - Componente BotonOpciones:
@@ -24,23 +23,24 @@ import DialogoBorrarLista from "./dialogoBorrar-Lista";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function BotonOpciones ({usuario, listaId, btnOpciones}) {
+export default function BotonOpciones({ usuario, listaId, btnOpciones }) {
   const opciones = ["Editar", "Borrar"]; //Array. Opciones del btnOpciones
   const [modalBorrarLista, setModalBorrarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una lista.
   const [modalEditarLista, setModalEditarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una lista.
 
+  // Creamos una función que cargué las listas para posteriormente recargar las listas cada vez que borramos o editamos una lista.
   async function cargarListas() {
-    // Creamos una función que cargué las listas para posteriormente recargar las listas cada vez que borramos o editamos una lista.
     const respuesta = await fetch(`/users/${usuario.id}/list`);
     const datos = await respuesta.json();
     setListas(datos.listas);
   }
 
+  //Muestra la ventana modal que permite borrar una lista. Aplicado al boton Borrar
   const mostrarModalBorrarListaHandle = () => {
     setModalBorrarLista(true);
   };
 
+  //Muestra la ventana modal que permite editar una lista. Aplicado al boton Editar
   const mostrarModalEditarListaHandle = () => {
     setModalEditarLista(true);
   };
