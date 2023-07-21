@@ -41,7 +41,7 @@ export default function CrearListaFormulario ({user_id, modalCrearLista, setModa
     <overlay>
       {modalCrearLista && (
         <div className="fixed z-50 inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <mdoal className="bg-white mx-5 sm:mx-auto rounded-3xl shadow-lg z-50 overflow-y-auto py-10 px-10">
+          <modal className="bg-white mx-5 sm:mx-auto rounded-3xl shadow-lg z-50 overflow-y-auto py-10 px-10">
             <form
               method="post"
               action={`/users/${user_id}/list`}
@@ -82,7 +82,7 @@ export default function CrearListaFormulario ({user_id, modalCrearLista, setModa
                 </button>
               </div>
             </form>
-          </mdoal>
+          </modal>
         </div>
       )}
     </overlay>

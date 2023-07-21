@@ -41,6 +41,7 @@ export default function DialogoEditarTarea({
       tareaActualizada === "" || //si la tarea es empty
       tareaActualizada === " " //si la tarea es un espacio vacio
     ) {
+      console.log("preventEvent");
       event.preventDefault();
       setError("Tienes que añadir una tarea");
 
@@ -49,8 +50,7 @@ export default function DialogoEditarTarea({
         setError("");
       }, 2000);
     } else {
-      event.preventDefault();
-
+      console.log("okokokokokook");
       const body = { descripcion: tareaActualizada };
       const options = {
         method: "PUT",

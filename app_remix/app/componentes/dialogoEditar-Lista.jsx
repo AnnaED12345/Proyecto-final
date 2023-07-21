@@ -36,16 +36,17 @@ export default function DialogoEditarLista({
 
   const onSubmitLista = (event) => {
     //Acepta la edición de la lista y cierra la ventana modal
+    event.preventDefault(); //evitamos que la página se recargue
     if (
       listaActualizada === null || //si la lista es null
       listaActualizada === "" || //si la lista es empty
       listaActualizada === " " //si la lista es un espacio vacio
-    ) {
-      event.preventDefault();
-      setError("Tienes que añadir un título para la lista");
-      setTimeout(() => {
+      ) {
+        setError("Tienes que añadir un título para la lista");
+        setTimeout(() => {
         setError("");
       }, 2000);
+      
     } else {
       const options = {
         method: "PUT",
@@ -58,10 +59,11 @@ export default function DialogoEditarLista({
       const actualizar = fetch(
         `/users/${usuarioId}/list/${idList}`,
         options
-      ).then((res) => {
-        if (res.ok) {
+        ).then((res) => {
+          if (res.ok) {
           cargarListas(idList);
           setModalEditarLista(false);
+          window.location.reload(); //recargamos la página únicamente si la respuesta de la petición es ok
         } else {
           console.log(error);
         }

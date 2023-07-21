@@ -43,7 +43,7 @@ export default function GetListas({ usuario, listas }) {
   const [listaSeleccionada, setListaSeleccionada] = useState(false); //Boolean. Estado para abrir el menu de opciones de cada lista.
   const [openVentanaTareas, setOpenVentanaTareas] = useState(false); //Boolean. Estado para abrir el componente VentanaTareas.
   const [modalCrearLista, setModalCrearLista] = useState(false); //Boolean. Estado para abrir la ventana modal para crear una lista.
-  const [btnOpciones, setBtnOpciones] = useState(true); //Boolean. Estado para el boton de opciones.
+  const [btnOpciones, setBtnOpciones] = useState(false); //Boolean. Estado para el boton de opciones.
   const [listaTitulo, setlistaTitulo] = useState(); //almacena el titulo de la lista para ser utilizado posteriormente en VentanaTareas. Inicialmente es undefined y almacena un string al hacer click en una lista.
   const { user_id } = useParams(); //String. Recoge el id del usuario de los parametros de la ruta.
   const [tareas, setTareas] = useState([]); //Array. Contiene id, descripción y listaID de cada tarea
@@ -62,16 +62,16 @@ export default function GetListas({ usuario, listas }) {
     cargarTareas(listId);
     setlistaTitulo(listaTitulo);
   };
-
+  
   //Muestra un dialogo que te permite crear una nueva lista. Aplicado al botón "Crear Lista"
   const mostrarModalCrearHandle = () => {
     setModalCrearLista(true);
   };
-
+  
   //Abre el botón de opciones que permite editar o borrar la lista. Aplicado al boton con el icono {faEllipsisVertical}
-  const onBtnOpcionesHandle = () => {
-    setListaSeleccionada(idLista);
-    setBtnOpciones(btnOpciones ? false : true);
+  const onBtnOpcionesHandle = (listId) => {
+    setListaSeleccionada(listId);
+    setBtnOpciones(btnOpciones && listId===listaSeleccionada ? false : true); //si el botón está abierto y la listaId es === a la lista Seleccionada permite hacer toggle del estado.
   };
 
   return (
@@ -92,7 +92,7 @@ export default function GetListas({ usuario, listas }) {
                   {lista.titulo}
                   <button
                     className="py-1.5 px-2 ml-6 mt-1"
-                    onClick={onBtnOpcionesHandle}
+                    onClick={() =>onBtnOpcionesHandle(lista.id)}
                   >
                     <FontAwesomeIcon
                       className="text-2xl"
@@ -100,16 +100,15 @@ export default function GetListas({ usuario, listas }) {
                     />
                   </button>
                 </li>
-                {listaSeleccionada === lista.id && (
+                
                   <BotonOpciones
                     usuario={usuario}
                     listaId={lista.id}
                     listaSeleccionada={listaSeleccionada}
-                    setOpenVentanaTareas={setOpenVentanaTareas}
                     btnOpciones={btnOpciones}
                     setBtnOpciones={setBtnOpciones}
                   />
-                )}
+                
               </ul>
             ))
           ) : (

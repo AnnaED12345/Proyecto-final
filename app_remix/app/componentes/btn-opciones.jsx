@@ -23,11 +23,12 @@ import DialogoBorrarLista from "./dialogoBorrar-Lista";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-export default function BotonOpciones({ usuario, listaId, btnOpciones }) {
+export default function BotonOpciones({ usuario, listaId, listaSeleccionada, btnOpciones,setBtnOpciones }) {
   const opciones = ["Editar", "Borrar"]; //Array. Opciones del btnOpciones
   const [modalBorrarLista, setModalBorrarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una lista.
   const [modalEditarLista, setModalEditarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una lista.
 
+  console.log(listaId);
   // Creamos una función que cargué las listas para posteriormente recargar las listas cada vez que borramos o editamos una lista.
   async function cargarListas() {
     const respuesta = await fetch(`/users/${usuario.id}/list`);
@@ -47,7 +48,7 @@ export default function BotonOpciones({ usuario, listaId, btnOpciones }) {
 
   return (
     <div className="flex justify-center">
-      {btnOpciones && (
+      {btnOpciones && listaSeleccionada === listaId &&  (
         <ul className="flex">
           {opciones.map((opcion) => (
             <button
