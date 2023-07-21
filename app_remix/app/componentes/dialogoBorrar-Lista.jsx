@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
@@ -23,9 +22,13 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function DialogoBorrarLista ({usuarioId, idList, cargarListas, modalBorrarLista, setModalBorrarLista }) {
-
+export default function DialogoBorrarLista({
+  usuarioId,
+  idList,
+  cargarListas,
+  modalBorrarLista,
+  setModalBorrarLista,
+}) {
   const options = {
     method: "DELETE",
     headers: {
@@ -41,18 +44,18 @@ export default function DialogoBorrarLista ({usuarioId, idList, cargarListas, mo
     const datos = await respuesta.json();
     cargarListas(idList);
     location.reload();
-  };
-    
-    //Acepta la eliminación de la lista y cierra la ventana modal. Aplicado al botón aceptar
-    const onBorrarListaHandle = () => {
-      borrarLista();
-    };
+  }
 
-    //Cancela la eliminación de la lista y cierra la ventana modal. Aplicado al botón cancelar
-    const onCancelarBorrarLista = () => { 
-      setModalBorrarLista(false);
-      idList = {};
-    };
+  //Acepta la eliminación de la lista y cierra la ventana modal. Aplicado al botón aceptar
+  const onBorrarListaHandle = () => {
+    borrarLista();
+  };
+
+  //Cancela la eliminación de la lista y cierra la ventana modal. Aplicado al botón cancelar
+  const onCancelarBorrarLista = () => {
+    setModalBorrarLista(false);
+    idList = {};
+  };
 
   return (
     <overlay>
@@ -90,4 +93,4 @@ export default function DialogoBorrarLista ({usuarioId, idList, cargarListas, mo
       )}
     </overlay>
   );
-  }
+}

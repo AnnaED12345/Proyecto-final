@@ -41,12 +41,11 @@ export default function DialogoEditarLista({
       listaActualizada === null || //si la lista es null
       listaActualizada === "" || //si la lista es empty
       listaActualizada === " " //si la lista es un espacio vacio
-      ) {
-        setError("Tienes que añadir un título para la lista");
-        setTimeout(() => {
+    ) {
+      setError("Tienes que añadir un título para la lista");
+      setTimeout(() => {
         setError("");
       }, 2000);
-      
     } else {
       const options = {
         method: "PUT",
@@ -59,11 +58,11 @@ export default function DialogoEditarLista({
       const actualizar = fetch(
         `/users/${usuarioId}/list/${idList}`,
         options
-        ).then((res) => {
-          if (res.ok) {
+      ).then((res) => {
+        if (res.ok) {
           cargarListas(idList);
           setModalEditarLista(false);
-          window.location.reload(); //recargamos la página únicamente si la respuesta de la petición es ok
+          window.location.reload(); //recargamos la página únicamente si la respuesta de la petición es ok. Este método lo utilizamos para evitar error de recarga en Firefox
         } else {
           console.log(error);
         }

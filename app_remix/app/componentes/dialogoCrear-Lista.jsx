@@ -1,6 +1,4 @@
-
 import { useState } from "react";
-
 
 /* Pestaña app tareas de cada usuario: 
   ESTRUCTURA
@@ -26,8 +24,11 @@ import { useState } from "react";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-
-export default function CrearListaFormulario ({user_id, modalCrearLista, setModalCrearLista}) {
+export default function CrearListaFormulario({
+  user_id,
+  modalCrearLista,
+  setModalCrearLista,
+}) {
   const [listaCreada, setListaCreada] = useState(""); //String
 
   //Cancela la creación de la lista y cierra la ventana modal. Aplicado al boton Cancelar

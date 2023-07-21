@@ -36,13 +36,14 @@ export default function DialogoEditarTarea({
   const [tareaActualizada, setTareaActualizada] = useState(" "); //String. Se actualiza con la tarea indicada en el input
 
   const onSubmitTarea = (event) => {
+    event.preventDefault();
+
     if (
       tareaActualizada === null || //si la tarea es null
       tareaActualizada === "" || //si la tarea es empty
       tareaActualizada === " " //si la tarea es un espacio vacio
     ) {
       console.log("preventEvent");
-      event.preventDefault();
       setError("Tienes que añadir una tarea");
 
       setError("Tienes que añadir una tarea");

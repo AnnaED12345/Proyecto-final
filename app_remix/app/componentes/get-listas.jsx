@@ -62,16 +62,16 @@ export default function GetListas({ usuario, listas }) {
     cargarTareas(listId);
     setlistaTitulo(listaTitulo);
   };
-  
+
   //Muestra un dialogo que te permite crear una nueva lista. Aplicado al botón "Crear Lista"
   const mostrarModalCrearHandle = () => {
     setModalCrearLista(true);
   };
-  
+
   //Abre el botón de opciones que permite editar o borrar la lista. Aplicado al boton con el icono {faEllipsisVertical}
   const onBtnOpcionesHandle = (listId) => {
     setListaSeleccionada(listId);
-    setBtnOpciones(btnOpciones && listId===listaSeleccionada ? false : true); //si el botón está abierto y la listaId es === a la lista Seleccionada permite hacer toggle del estado.
+    setBtnOpciones(btnOpciones && listId === listaSeleccionada ? false : true); //si el botón está abierto y la listaId es === a la lista Seleccionada permite hacer toggle del estado.
   };
 
   return (
@@ -92,7 +92,7 @@ export default function GetListas({ usuario, listas }) {
                   {lista.titulo}
                   <button
                     className="py-1.5 px-2 ml-6 mt-1"
-                    onClick={() =>onBtnOpcionesHandle(lista.id)}
+                    onClick={() => onBtnOpcionesHandle(lista.id)}
                   >
                     <FontAwesomeIcon
                       className="text-2xl"
@@ -100,15 +100,14 @@ export default function GetListas({ usuario, listas }) {
                     />
                   </button>
                 </li>
-                
-                  <BotonOpciones
-                    usuario={usuario}
-                    listaId={lista.id}
-                    listaSeleccionada={listaSeleccionada}
-                    btnOpciones={btnOpciones}
-                    setBtnOpciones={setBtnOpciones}
-                  />
-                
+
+                <BotonOpciones
+                  usuario={usuario}
+                  listaId={lista.id}
+                  listaSeleccionada={listaSeleccionada}
+                  btnOpciones={btnOpciones}
+                  setBtnOpciones={setBtnOpciones}
+                />
               </ul>
             ))
           ) : (

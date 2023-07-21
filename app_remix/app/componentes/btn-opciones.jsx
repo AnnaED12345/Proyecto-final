@@ -23,7 +23,13 @@ import DialogoBorrarLista from "./dialogoBorrar-Lista";
     - Al lado de cada varible se especificará el tipo de dato que alamena. 
  */
 
-export default function BotonOpciones({ usuario, listaId, listaSeleccionada, btnOpciones,setBtnOpciones }) {
+export default function BotonOpciones({
+  usuario,
+  listaId,
+  listaSeleccionada,
+  btnOpciones,
+  setBtnOpciones,
+}) {
   const opciones = ["Editar", "Borrar"]; //Array. Opciones del btnOpciones
   const [modalBorrarLista, setModalBorrarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para BORRAR una lista.
   const [modalEditarLista, setModalEditarLista] = useState(false); //Boolean. Estado para abrir la ventana modal para EDITAR una lista.
@@ -48,7 +54,7 @@ export default function BotonOpciones({ usuario, listaId, listaSeleccionada, btn
 
   return (
     <div className="flex justify-center">
-      {btnOpciones && listaSeleccionada === listaId &&  (
+      {btnOpciones && listaSeleccionada === listaId && (
         <ul className="flex">
           {opciones.map((opcion) => (
             <button
