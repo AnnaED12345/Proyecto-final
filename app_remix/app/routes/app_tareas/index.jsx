@@ -36,7 +36,8 @@ export default function SeleccionaUsuario() {
       if (contentType && contentType.includes("application/json")) {
         //si contiene content-type:
         const user = await response.json();
-        document.getElementById("username").value = ""; //vaciamos el input del email. En este caso no usamos useState ya que este actualiza el valor en el estado del componente pero no del DOM.
+        document.getElementById("username").value = ""; //vaciamos el input del email y la contraseña. En este caso no usamos useState ya que este actualiza el valor en el estado del componente pero no del DOM.
+        document.getElementById("password").value = "";
         window.location.href = `/app_tareas/${user.id}`; //se redirige al usuario a su app de tareas mediante el id
       } else {
         setError("La respuesta no contiene datos JSON");
@@ -85,6 +86,7 @@ export default function SeleccionaUsuario() {
               className="bg-Gainsboro rounded-3xl text-MidnightBlue font-light block w-full p-2 px-8 mb-4"
               type="password"
               name="password"
+              id="password"
               placeholder="contraseña"
               required=""
               onChange={(event) => setPassword(event.target.value)}
