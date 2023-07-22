@@ -119,10 +119,6 @@ passport.use(
 
 //---------------------------- RUTAS LOGIN Y LOGOUT ----------------------------
 
-app.get("/test", (req, res) => {
-  res.status(200).json({ msg: "backend Funciona!" });
-});
-
 //LOGIN
 app.post("/login", passport.authenticate("local"), (req, res) => {
   const user = req.user;
@@ -143,7 +139,7 @@ app.get("/logout", function (req, res) {
   });
 });
 
-//---------------------------- AUTENTICACIÓN EN RUTAS ----------------------------
+//----------------------------  GESTIÓN DE RUTAS ----------------------------
 
 rutasApp(app); //archivo dónde se gestionan las rutas del servidor
 
