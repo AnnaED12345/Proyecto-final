@@ -66,28 +66,30 @@ export default function VentanaTareas({
           <div className="h-96 md:h-64 mx-4 overflow-y-auto overflow-y-auto">
             {tareas !== undefined && tareas.length > 0 ? ( //si es asi se verifica si hay tareas
               tareas.map((tarea) => (
-                <li
-                  className="bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-3 p-2 px-8 flex justify-between"
-                  key={tarea.id}
-                >
-                  {tarea.descripcion}
+                <ul>
+                  <li
+                    className="bg-Gainsboro bg-opacity-50 text-lg rounded-3xl my-3 p-2 px-6 md:px-12 flex justify-between items-center"
+                    key={tarea.id}
+                  >
+                    {tarea.descripcion}
 
-                  <div>
-                    <button
-                      className="px-10"
-                      onClick={() => mostrarModalEditarTareaHandle(tarea.id)}
-                    >
-                      <FontAwesomeIcon icon={faPen} />
-                    </button>
+                    <div className="flex items-center">
+                      <button
+                        className="px-4 md:px-8 "
+                        onClick={() => mostrarModalEditarTareaHandle(tarea.id)}
+                      >
+                        <FontAwesomeIcon icon={faPen} />
+                      </button>
 
-                    <button
-                      className="btnBorrar"
-                      onClick={() => mostrarModalBorrarTareaHandle(tarea.id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
-                  </div>
-                </li>
+                      <button
+                        className="btnBorrar"
+                        onClick={() => mostrarModalBorrarTareaHandle(tarea.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </button>
+                    </div>
+                  </li>
+                </ul>
               ))
             ) : (
               <div>
